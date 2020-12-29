@@ -1,7 +1,8 @@
-import QtQuick                  2.7
+﻿import QtQuick                  2.7
 import QtQuick.Controls         2.0
 import QtQuick.Layouts          1.3
 import FileManager              1.0
+import Tools                    1.0
 ApplicationWindow {
     id:rootWindow
     visible: true

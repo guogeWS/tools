@@ -34,3 +34,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     src/FileManger.h \
     src/WindowsExcelfileAnalyzer.h
+
+INCLUDEPATH +=   \
+    src/qmlComponent
+
