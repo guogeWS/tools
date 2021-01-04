@@ -5,8 +5,10 @@
 #include <QAxObject>
 #include <QDebug>
 #include <QFile>
-class WindowsExcelFileAnalyzer
+#include <QDir>
+class WindowsExcelFileAnalyzer:public QObject
 {
+    Q_OBJECT
     struct DailyWorkInfo
     {
         QString name;
@@ -16,15 +18,20 @@ class WindowsExcelFileAnalyzer
     };
 public:
     WindowsExcelFileAnalyzer();
-    void readExcelFile(QString fileName);
-    void writeExcelFile(QString fileName);
-    void outPutToTxtFile(QString fileName);
-    void setCurrentData(QString data){
+    Q_INVOKABLE void readExcelFile(QString fileName);
+    Q_INVOKABLE void writeExcelFile(QString fileName);
+    Q_INVOKABLE void outPutToTxtFile(QString fileName);
+    Q_INVOKABLE void setCurrentData(QString year,QString mounth,QString data){
         _currentData=data;
+        _currentYear=year;
+        _currentMounth=mounth;
     }
+    Q_INVOKABLE void getUsefulFile(QString path);
     QList<DailyWorkInfo> infoList;
     QMap<QString,DailyWorkInfo> infoMap;
     QString _currentData="";
+    QString _currentYear="";
+    QString _currentMounth="";
 };
 
 #endif // WINDOWSEXCELFILEANALYZER_H

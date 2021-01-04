@@ -5,23 +5,8 @@ WindowsExcelFileAnalyzer::WindowsExcelFileAnalyzer()
 
 }
 void WindowsExcelFileAnalyzer::outPutToTxtFile(QString fileName){
-//    QFile file(fileName);
-//    if(file.open(QIODevice::WriteOnly|QIODevice::Append|QIODevice::Text)){
-//        file.write(u8"\n");
-//        file.write(u8"研发部工作总结；2020.12.29\n");
-//        for(int i=0;i<infoList.length();i++){
-//            QString message=infoList[i].name+":"+infoList[i].summaryOfTodayWork+"\n";
-//            file.write(message.toLatin1());
-//        }
-//        file.write(u8"研发部工作安排；\n");
-//        for(int i=0;i<infoList.length();i++){
-//            QString message=infoList[i].name+":"+infoList[i].tomorrowWorkPlan+"\n";
-//            file.write(message.toLatin1());
-//        }
-//    }
-//    file.close();
     QString outPutString="";
-    outPutString+=u8"研发部工作总结；2020.12."+_currentData+"\n";
+    outPutString+=u8"研发部工作总结；2021.1."+_currentData+"\n";
     for(int i=0;i<infoList.length();i++){
         QString message=infoList[i].name+":"+infoList[i].summaryOfTodayWork+"\n";
         outPutString+=message;
@@ -40,17 +25,19 @@ void WindowsExcelFileAnalyzer::writeExcelFile(QString fileName){
     QAxObject *workbook=workbooks->querySubObject("Open(Qstring,Qvariant)",fileName);
     QAxObject *worksheet=workbook->querySubObject("WorkSheets(int)",1);
     //QAxObject *cell_1_1 = worksheet->querySubObject("Cells(int,int)", 1, 2);// 行  列
-    int currentIndex;
+    int currentIndex=-1;
     QString tomoryWorkInfo;
     for(int i=1;i<35;i++){
         QAxObject *cell =worksheet->querySubObject("Cells(int,int)", 9, i);
         QString value=cell->property("Value").toString();
-        if(value.contains(u8"-"+_currentData)){
+        qDebug()<<"?????"<<value;
+        if(value.contains(u8"-0"+_currentData)){
             currentIndex=i;
             break;
         }
     }
-    for(int i=14;i<20;i++){
+    qDebug()<<"currentIndex"<<currentIndex;
+    for(int i=10;i<16;i++){
         QString name=worksheet->querySubObject("Cells(int,int)", i, 2)->property("Value").toString();
         qDebug()<<"name name"<<name;
         QAxObject *cell=worksheet->querySubObject("Cells(int,int)", i, currentIndex);
@@ -58,7 +45,7 @@ void WindowsExcelFileAnalyzer::writeExcelFile(QString fileName){
         tomoryWorkInfo+=infoMap[name].tomorrowWorkPlan+"\n";
         infoList.append(infoMap[name]);
     }
-    QAxObject *lastcell=worksheet->querySubObject("Cells(int,int)", 20, currentIndex);
+    QAxObject *lastcell=worksheet->querySubObject("Cells(int,int)", 16, currentIndex);
     lastcell->setProperty("Value",tomoryWorkInfo);
     workbook->dynamicCall("Close");
     workbook->dynamicCall("SaveAs (const QString&,int,const QString&,const QString&,bool,bool)",
@@ -119,4 +106,19 @@ void WindowsExcelFileAnalyzer::readExcelFile(QString fileName){
     workbook->dynamicCall("Close");
     excel.dynamicCall("Quit()");
 
+}
+void WindowsExcelFileAnalyzer::getUsefulFile(QString aaa){
+    QString path=u8"c:/Users/WIN 10/Desktop/工作计划/";
+    QDir fileDir(path);
+    fileDir.setFilter(QDir::Files);
+    QFileInfoList fileInfoList=fileDir.entryInfoList();
+    for(int i=0;i<fileInfoList.length();i++){
+        QString fileName=fileInfoList.at(i).fileName();
+        if(fileName.contains("2021")&&fileName.contains("1")&&fileName.contains(_currentData)){
+            qDebug()<<"fileName :"<<fileName;
+            readExcelFile(path+(fileName));
+        }
+    }
+    writeExcelFile(u8"c:/Users/WIN 10/Desktop/工作计划/研发部工作情况表-2021-1.xlsx");
+    outPutToTxtFile("");
 }

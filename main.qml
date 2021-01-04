@@ -15,6 +15,7 @@ ApplicationWindow {
     Rectangle{
         anchors.fill: parent
         color: "black"
+        visible: false
         //文件列表
         Rectangle{
             id:fileList
@@ -101,5 +102,9 @@ ApplicationWindow {
                 color: "white"
             }
         }
+    }
+    ExcelAnalyzerView{
+        id:excelAnalyzerView
+        anchors.fill:parent
     }
 }

@@ -7,7 +7,8 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
-    QString currentData="29";
+    /*
+    QString currentData="31";
     WindowsExcelFileAnalyzer *excelFileAnalyzer=new WindowsExcelFileAnalyzer();
     excelFileAnalyzer->setCurrentData(currentData);
     QString path=u8"c:/Users/WIN 10/Desktop/工作计划/";
@@ -25,8 +26,10 @@ int main(int argc, char *argv[])
     excelFileAnalyzer->writeExcelFile(path);
     path=u8"c:/Users/WIN 10/Desktop/工作计划/新建文本文档.txt";
     excelFileAnalyzer->outPutToTxtFile(path);
+*/
     QQmlApplicationEngine engine;
     qmlRegisterType<FileManger>("FileManager" ,1 ,0,"FileManager");
+    qmlRegisterType<WindowsExcelFileAnalyzer>("WindowsExcelFileAnalyzer",1,0,"WindowsExcelFileAnalyzer");
     engine.addImportPath("qrc:/qmlComponents");
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 
