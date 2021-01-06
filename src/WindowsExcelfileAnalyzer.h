@@ -20,13 +20,14 @@ public:
     WindowsExcelFileAnalyzer();
     Q_INVOKABLE void readExcelFile(QString fileName);
     Q_INVOKABLE void writeExcelFile(QString fileName);
-    Q_INVOKABLE void outPutToTxtFile(QString fileName);
+    Q_INVOKABLE QString outPutToTxtFile(QString fileName);
     Q_INVOKABLE void setCurrentData(QString year,QString mounth,QString data){
         _currentData=data;
         _currentYear=year;
         _currentMounth=mounth;
     }
     Q_INVOKABLE void getUsefulFile(QString path);
+    Q_INVOKABLE QString slipText(QString text);
     QList<DailyWorkInfo> infoList;
     QMap<QString,DailyWorkInfo> infoMap;
     QString _currentData="";

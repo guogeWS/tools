@@ -4,9 +4,9 @@ WindowsExcelFileAnalyzer::WindowsExcelFileAnalyzer()
 {
 
 }
-void WindowsExcelFileAnalyzer::outPutToTxtFile(QString fileName){
+QString WindowsExcelFileAnalyzer::outPutToTxtFile(QString fileName){
     QString outPutString="";
-    outPutString+=u8"研发部工作总结；2021.1."+_currentData+"\n";
+    outPutString+=u8"研发部工作总结；"+_currentYear+"."+_currentMounth+"."+_currentData+"\n";
     for(int i=0;i<infoList.length();i++){
         QString message=infoList[i].name+":"+infoList[i].summaryOfTodayWork+"\n";
         outPutString+=message;
@@ -17,6 +17,8 @@ void WindowsExcelFileAnalyzer::outPutToTxtFile(QString fileName){
         outPutString+=message;
     }
     qDebug().noquote()<<outPutString;
+    return outPutString;
+
 }
 void WindowsExcelFileAnalyzer::writeExcelFile(QString fileName){
     QAxObject excel("Excel.Application");
@@ -30,8 +32,7 @@ void WindowsExcelFileAnalyzer::writeExcelFile(QString fileName){
     for(int i=1;i<35;i++){
         QAxObject *cell =worksheet->querySubObject("Cells(int,int)", 9, i);
         QString value=cell->property("Value").toString();
-        qDebug()<<"?????"<<value;
-        if(value.contains(u8"-0"+_currentData)){
+        if(value.contains(_currentData.length()>1?u8"-":u8"-0"+_currentData)){
             currentIndex=i;
             break;
         }
@@ -47,9 +48,9 @@ void WindowsExcelFileAnalyzer::writeExcelFile(QString fileName){
     }
     QAxObject *lastcell=worksheet->querySubObject("Cells(int,int)", 16, currentIndex);
     lastcell->setProperty("Value",tomoryWorkInfo);
+
+    workbook->dynamicCall("Save");
     workbook->dynamicCall("Close");
-    workbook->dynamicCall("SaveAs (const QString&,int,const QString&,const QString&,bool,bool)",
-                                  fileName,56,QString(""),QString(""),false,false);
 
     excel.dynamicCall("Quit()");
 
@@ -107,18 +108,20 @@ void WindowsExcelFileAnalyzer::readExcelFile(QString fileName){
     excel.dynamicCall("Quit()");
 
 }
-void WindowsExcelFileAnalyzer::getUsefulFile(QString aaa){
-    QString path=u8"c:/Users/WIN 10/Desktop/工作计划/";
+void WindowsExcelFileAnalyzer::getUsefulFile(QString path){
     QDir fileDir(path);
     fileDir.setFilter(QDir::Files);
     QFileInfoList fileInfoList=fileDir.entryInfoList();
     for(int i=0;i<fileInfoList.length();i++){
         QString fileName=fileInfoList.at(i).fileName();
-        if(fileName.contains("2021")&&fileName.contains("1")&&fileName.contains(_currentData)){
+        if(fileName.contains(_currentYear)&&fileName.contains(_currentMounth)&&fileName.contains(_currentData)){
             qDebug()<<"fileName :"<<fileName;
             readExcelFile(path+(fileName));
         }
     }
     writeExcelFile(u8"c:/Users/WIN 10/Desktop/工作计划/研发部工作情况表-2021-1.xlsx");
-    outPutToTxtFile("");
+    //outPutToTxtFile("");
+}
+QString WindowsExcelFileAnalyzer::slipText(QString text){
+    return text.remove("file:///");
 }

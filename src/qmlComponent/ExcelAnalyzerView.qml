@@ -1,13 +1,19 @@
 ﻿import QtQuick           2.9
-import QtQuick.Controls  2.0
+import QtQuick.Controls  2.2
 import QtQuick.Dialogs   1.2
 import Qt.labs.settings  1.0
 import WindowsExcelFileAnalyzer 1.0
+import Tools             1.0
 Item {
     id:root
+    property real titleFontSize: 30
+    property real subFontSize: 30
     Rectangle{
         anchors.fill: parent
-        color: "black"
+        color: "#1a76d1"
+    }
+    FontList{
+        id:fontlist
     }
     WindowsExcelFileAnalyzer{
         id:windowsExcelFileAnalyzer
@@ -15,23 +21,32 @@ Item {
     Settings{
         id:settings
         property alias path: fileDirectory.text
+        property alias file: filePath.text
         property alias year:yearText.text
         property alias mounth:mounthText.text
         property alias day:dayText.text
     }
     Column{
+        spacing: 10
+        anchors.top: parent.top
+        anchors.topMargin: 10
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+
         Text {
             text: "请输入工作日期:"
-            font.pixelSize: 50
+            font.pixelSize: titleFontSize
+            font.family: fontlist.blackFont.name
             color: "white"
         }
         Row{
             TextInput{
                 id:yearText
                 width: 200
-                height: 40
-                font.pixelSize: 40
+                height: subFontSize
+                font.pixelSize: subFontSize*0.8
                 color: "white"
+                text: settings.year
                 property string placeHoldMessage: "2020"
                 anchors.verticalCenter: parent.verticalCenter
                 Rectangle{
@@ -41,7 +56,8 @@ Item {
                 }
             }
             Text {
-                font.pixelSize: 40
+                font.pixelSize: subFontSize*0.8
+                font.family: fontlist.blackFont.name
                 color: "white"
                 text: "年"
                 anchors.verticalCenter: parent.verticalCenter
@@ -49,8 +65,8 @@ Item {
             TextInput{
                 id:mounthText
                 width: 100
-                height: 40
-                font.pixelSize: 40
+                height: subFontSize
+                font.pixelSize: subFontSize*0.8
                 color: "white"
                 property string placeHoldMessage: "1"
                 Rectangle{
@@ -60,7 +76,8 @@ Item {
                 }
             }
             Text {
-                font.pixelSize: 40
+                font.pixelSize: subFontSize*0.8
+                font.family: fontlist.blackFont.name
                 color: "white"
                 text: "月"
                 anchors.verticalCenter: parent.verticalCenter
@@ -68,8 +85,8 @@ Item {
             TextInput{
                 id:dayText
                 width: 100
-                height: 40
-                font.pixelSize: 40
+                height: subFontSize
+                font.pixelSize: subFontSize*0.8
                 color: "white"
                 property string placeHoldMessage: "1"
                 Rectangle{
@@ -79,24 +96,26 @@ Item {
                 }
             }
             Text {
-                font.pixelSize: 40
+                font.pixelSize: subFontSize*0.8
+                font.family: fontlist.blackFont.name
                 color: "white"
                 text: "日"
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
         Text {
-
             text: "请设置文件所在目录:"
-            font.pixelSize: 50
+            font.pixelSize: titleFontSize
+            font.family: fontlist.blackFont.name
             color: "white"
         }
         Row{
+            spacing: 10
             TextInput{
                 id:fileDirectory
-                width: 600
-                height: 40
-                font.pixelSize: 40
+                width: 500
+                height: subFontSize
+                font.pixelSize: subFontSize*0.8
                 color: "white"
                 property string placeHoldMessage: ""
                 anchors.verticalCenter: parent.verticalCenter
@@ -107,11 +126,43 @@ Item {
                 }
             }
             Button{
-                width: 40
-                height: 40
+                width: subFontSize
+                height: subFontSize
                 text: "浏览"
                 onClicked: {
                     fileDialog.open()
+                }
+            }
+        }
+        Text {
+            text: "请设置输出文件:"
+            font.pixelSize: titleFontSize
+            font.family: fontlist.blackFont.name
+            color: "white"
+        }
+        Row{
+            spacing: 10
+            TextInput{
+                id:filePath
+                width: 500
+                height: subFontSize
+                font.pixelSize: subFontSize*0.8
+                color: "white"
+                property string placeHoldMessage: ""
+                anchors.verticalCenter: parent.verticalCenter
+                clip: true
+                Rectangle{
+                    anchors.fill: parent
+                    color: "#00000000"
+                    border.color: "white"
+                }
+            }
+            Button{
+                width: subFontSize
+                height: subFontSize
+                text: "浏览"
+                onClicked: {
+                    fileDialog2.open()
                 }
             }
         }
@@ -119,9 +170,35 @@ Item {
             id:fileDialog
             selectFolder:true
             onAccepted: {
-                fileDirectory.text=fileDialog.fileUrl
+                fileDirectory.text=windowsExcelFileAnalyzer.slipText(fileDialog.fileUrl)+"/"
             }
         }
+        FileDialog{
+            id:fileDialog2
+            onAccepted: {
+                filePath.text=windowsExcelFileAnalyzer.slipText(fileDialog2.fileUrl)
+            }
+        }
+        Rectangle{
+            width: 550
+            height: 150
+            color: "#00000000"
+            border.color: "white"
+            border.width: 2
+            clip: true
+            ScrollView{
+                anchors.fill: parent
+                TextArea{
+                    id:outputMessageArea
+                    font.pixelSize: 20
+                    font.family: fontlist.blackFont.name
+                    color: "black"
+                    selectByKeyboard: true
+                    selectByMouse: true
+                }
+            }
+        }
+
     }
     Button{
         text: "开始"
@@ -130,26 +207,7 @@ Item {
         onClicked: {
             windowsExcelFileAnalyzer.setCurrentData(yearText.text,mounthText.text,dayText.text)
             windowsExcelFileAnalyzer.getUsefulFile(fileDirectory.text)
+            outputMessageArea.text=windowsExcelFileAnalyzer.outPutToTxtFile("")
         }
-        /*
-        QString currentData="31";
-        WindowsExcelFileAnalyzer *excelFileAnalyzer=new WindowsExcelFileAnalyzer();
-        excelFileAnalyzer->setCurrentData(currentData);
-        QString path=u8"c:/Users/WIN 10/Desktop/工作计划/";
-        QDir fileDir(path);
-        fileDir.setFilter(QDir::Files);
-        QFileInfoList fileInfoList=fileDir.entryInfoList();
-        for(int i=0;i<fileInfoList.length();i++){
-            QString fileName=fileInfoList.at(i).fileName();
-            if(fileName.contains("2020")&&fileName.contains("12")&&fileName.contains(currentData)){
-                qDebug()<<"fileName :"<<fileName;
-                excelFileAnalyzer->readExcelFile(path+(fileName));
-            }
-        }
-        path=u8"c:/Users/WIN 10/Desktop/工作计划/研发部工作情况-12月.xlsx";
-        excelFileAnalyzer->writeExcelFile(path);
-        path=u8"c:/Users/WIN 10/Desktop/工作计划/新建文本文档.txt";
-        excelFileAnalyzer->outPutToTxtFile(path);
-    */
     }
 }
