@@ -21,6 +21,7 @@ QString WindowsExcelFileAnalyzer::outPutToTxtFile(QString fileName){
 
 }
 void WindowsExcelFileAnalyzer::writeExcelFile(QString fileName){
+    infoList.clear();
     QAxObject excel("Excel.Application");
     excel.setProperty("Visible",false);
     QAxObject *workbooks = excel.querySubObject("WorkBooks");
@@ -32,7 +33,7 @@ void WindowsExcelFileAnalyzer::writeExcelFile(QString fileName){
     for(int i=1;i<35;i++){
         QAxObject *cell =worksheet->querySubObject("Cells(int,int)", 9, i);
         QString value=cell->property("Value").toString();
-        if(value.contains(_currentData.length()>1?u8"-":u8"-0"+_currentData)){
+        if(value.contains((_currentData.length()>1?u8"-":u8"-0")+_currentData)){
             currentIndex=i;
             break;
         }
@@ -119,7 +120,7 @@ void WindowsExcelFileAnalyzer::getUsefulFile(QString path){
             readExcelFile(path+(fileName));
         }
     }
-    writeExcelFile(u8"c:/Users/WIN 10/Desktop/工作计划/研发部工作情况表-2021-1.xlsx");
+    writeExcelFile(_targetFile);
     //outPutToTxtFile("");
 }
 QString WindowsExcelFileAnalyzer::slipText(QString text){

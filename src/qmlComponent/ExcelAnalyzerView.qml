@@ -205,6 +205,7 @@ Item {
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         onClicked: {
+            windowsExcelFileAnalyzer.setTargetFile(windowsExcelFileAnalyzer.slipText(filePath.text))
             windowsExcelFileAnalyzer.setCurrentData(yearText.text,mounthText.text,dayText.text)
             windowsExcelFileAnalyzer.getUsefulFile(fileDirectory.text)
             outputMessageArea.text=windowsExcelFileAnalyzer.outPutToTxtFile("")
