@@ -39,5 +39,5 @@ HEADERS += \
 INCLUDEPATH +=   \
     src/qmlComponent
 
-
+RC_FILE += FileArrange.rc
 
