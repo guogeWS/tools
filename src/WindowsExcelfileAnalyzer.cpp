@@ -115,9 +115,19 @@ void WindowsExcelFileAnalyzer::getUsefulFile(QString path){
     QFileInfoList fileInfoList=fileDir.entryInfoList();
     for(int i=0;i<fileInfoList.length();i++){
         QString fileName=fileInfoList.at(i).fileName();
-        if(fileName.contains(_currentYear)&&fileName.contains(_currentMounth)&&fileName.contains(_currentData)){
-            qDebug()<<"fileName :"<<fileName;
-            readExcelFile(path+(fileName));
+        if(fileName.contains(u8"周工作计划")){
+            continue;
+        }
+        if(fileName.contains(_currentYear)){
+            fileName.remove(_currentYear);
+            if(fileName.contains(_currentMounth)){
+                int startIndex= fileName.indexOf(_currentMounth);
+                fileName= fileName.mid(startIndex+_currentMounth.length());
+                if(fileName.contains(_currentData)){
+                    qDebug()<<"fileName :"<<fileInfoList.at(i).fileName();
+                    readExcelFile(path+fileInfoList.at(i).fileName());
+                }
+            }
         }
     }
     writeExcelFile(_targetFile);

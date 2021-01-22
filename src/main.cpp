@@ -3,6 +3,8 @@
 #include "FileManger.h"
 #include "WindowsExcelfileAnalyzer.h"
 #include <QDir>
+#include <QSqlDatabase>
+#include <QSqlError>
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -10,6 +12,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName(u8"郭哥ws");
     app.setOrganizationDomain(u8"中国");
     app.setApplicationName(u8"工具集");
+
     QQmlApplicationEngine engine;
     qmlRegisterType<FileManger>("FileManager" ,1 ,0,"FileManager");
     qmlRegisterType<WindowsExcelFileAnalyzer>("WindowsExcelFileAnalyzer",1,0,"WindowsExcelFileAnalyzer");
