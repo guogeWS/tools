@@ -7,7 +7,7 @@ ApplicationWindow {
     id:rootWindow
     visible: true
     width: 640
-    height: 480
+    height: 550
     title: qsTr("文件整理助手")
     property var toolNameList: ["每日计划整理工具","串口转TCP工具"]
     Grid{

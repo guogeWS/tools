@@ -16,12 +16,17 @@ class WindowsExcelFileAnalyzer:public QObject
         QString summaryOfTodayWork_simple;
         QString tomorrowWorkPlan;
     };
+    Q_PROPERTY(int analyzeType READ analyzeType WRITE setAnalyzeType NOTIFY analyzeTypeChanged)
 public:
     WindowsExcelFileAnalyzer();
-    Q_INVOKABLE void readExcelFile(QString fileName);
-    Q_INVOKABLE void writeExcelFile(QString fileName);
+    int  analyzeType(){return _analyzeType;}
+    void setAnalyzeType(int newValue){_analyzeType=newValue;emit analyzeTypeChanged();}
+
+
+    Q_INVOKABLE void    readExcelFile(QString fileName);
+    Q_INVOKABLE void    writeExcelFile(QString fileName);
     Q_INVOKABLE QString outPutToTxtFile(QString fileName);
-    Q_INVOKABLE void setCurrentData(QString year,QString mounth,QString data){
+    Q_INVOKABLE void    setCurrentData(QString year,QString mounth,QString data){
         _currentData=data;
         _currentYear=year;
         _currentMounth=mounth;
@@ -37,6 +42,10 @@ public:
     QString _currentYear="";
     QString _currentMounth="";
     QString _targetFile;
+private:
+    int _analyzeType;//解析模式  0：  1；
+signals:
+    void analyzeTypeChanged();
 };
 
 #endif // WINDOWSEXCELFILEANALYZER_H

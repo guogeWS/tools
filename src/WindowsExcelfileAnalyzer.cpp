@@ -39,22 +39,37 @@ void WindowsExcelFileAnalyzer::writeExcelFile(QString fileName){
         }
     }
     qDebug()<<"currentIndex"<<currentIndex;
-    for(int i=10;i<16;i++){
-        QString name=worksheet->querySubObject("Cells(int,int)", i, 2)->property("Value").toString();
-        qDebug()<<"name name"<<name;
-        QAxObject *cell=worksheet->querySubObject("Cells(int,int)", i, currentIndex);
-        cell->setProperty("Value",infoMap[name].summaryOfTodayWork_simple);
-        tomoryWorkInfo+=infoMap[name].tomorrowWorkPlan+"\n";
-        infoList.append(infoMap[name]);
+    QAxObject *lastcell;
+    switch (_analyzeType) {
+    case 0:
+        for(int i=10;i<16;i++){
+            QString name=worksheet->querySubObject("Cells(int,int)", i, 2)->property("Value").toString();
+            qDebug()<<"name name"<<name;
+            QAxObject *cell=worksheet->querySubObject("Cells(int,int)", i, currentIndex);
+            cell->setProperty("Value",infoMap[name].summaryOfTodayWork_simple);
+            tomoryWorkInfo+=infoMap[name].tomorrowWorkPlan+"\n";
+            infoList.append(infoMap[name]);
+        }
+        lastcell=worksheet->querySubObject("Cells(int,int)", 16, currentIndex);
+        lastcell->setProperty("Value",tomoryWorkInfo);
+        break;
+    case 1:
+        for(int i=10;i<16;i++){
+            QString name=worksheet->querySubObject("Cells(int,int)", i, 2)->property("Value").toString();
+            qDebug()<<"name name"<<name;
+            QAxObject *cell=worksheet->querySubObject("Cells(int,int)", i, currentIndex);
+            cell->setProperty("Value",infoMap[name].summaryOfTodayWork_simple);
+            QAxObject *tomcell=worksheet->querySubObject("Cells(int,int)", i+6, currentIndex);
+            tomcell->setProperty("Value",infoMap[name].tomorrowWorkPlan);
+            infoList.append(infoMap[name]);
+        }
+        break;
+    default:
+        break;
     }
-    QAxObject *lastcell=worksheet->querySubObject("Cells(int,int)", 16, currentIndex);
-    lastcell->setProperty("Value",tomoryWorkInfo);
-
     workbook->dynamicCall("Save");
     workbook->dynamicCall("Close");
-
     excel.dynamicCall("Quit()");
-
 }
 void WindowsExcelFileAnalyzer::readExcelFile(QString fileName){
     QAxObject excel("Excel.Application");

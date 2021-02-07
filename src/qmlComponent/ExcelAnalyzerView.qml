@@ -22,9 +22,10 @@ Item {
         id:settings
         property alias path: fileDirectory.text
         property alias file: filePath.text
-        property alias year:yearText.text
+        property alias year: yearText.text
         property alias mounth:mounthText.text
         property alias day:dayText.text
+        property alias saveType: windowsExcelFileAnalyzer.analyzeType
     }
     Column{
         spacing: 10
@@ -177,6 +178,41 @@ Item {
             id:fileDialog2
             onAccepted: {
                 filePath.text=windowsExcelFileAnalyzer.slipText(fileDialog2.fileUrl)
+            }
+        }
+        Row{
+            RadioButton {
+                checked: windowsExcelFileAnalyzer.analyzeType==0
+                text: "模式1"
+                font.family: fontlist.blackFont.name
+                font.pixelSize: 18
+                onCheckedChanged:{
+                    if(checked){
+                        windowsExcelFileAnalyzer.analyzeType=0
+                    }
+                }
+            }
+            RadioButton {
+                checked: windowsExcelFileAnalyzer.analyzeType==1
+                text: "模式2"
+                font.family: fontlist.blackFont.name
+                font.pixelSize: 18
+                onCheckedChanged:{
+                    if(checked){
+                        windowsExcelFileAnalyzer.analyzeType=1
+                    }
+                }
+            }
+            RadioButton {
+                checked: windowsExcelFileAnalyzer.analyzeType==2
+                text: "模式3"
+                font.family: fontlist.blackFont.name
+                font.pixelSize: 18
+                onCheckedChanged:{
+                    if(checked){
+                        windowsExcelFileAnalyzer.analyzeType=2
+                    }
+                }
             }
         }
         Rectangle{
