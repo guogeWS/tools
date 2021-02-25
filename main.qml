@@ -119,4 +119,6 @@ ApplicationWindow {
         id:excelAnalyzerView
         anchors.fill:parent
     }
+//    Test{
+//    }
 }

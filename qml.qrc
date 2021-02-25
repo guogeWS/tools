@@ -9,6 +9,7 @@
         <file alias="Tools/ExcelAnalyzerView.qml">src/qmlComponent/ExcelAnalyzerView.qml</file>
         <file alias="Tools/qmldir">src/qmlComponent/qmldir</file>
         <file alias="Tools/FontList.qml">src/qmlComponent/FontList.qml</file>
+        <file alias="Tools/Test.qml">src/qmlComponent/Test.qml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>source/fonts/TengXiangMingSongJian-W4-2.ttf</file>
