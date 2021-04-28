@@ -17,6 +17,7 @@ class WindowsExcelFileAnalyzer:public QObject
         QString tomorrowWorkPlan;
     };
     Q_PROPERTY(int analyzeType READ analyzeType WRITE setAnalyzeType NOTIFY analyzeTypeChanged)
+    //Q_PROPERTY(int todayIndex READ todayIndex WRITE setTodayIndex NOTIFY todayIndexChanged)//今日工作总结的序号
 public:
     WindowsExcelFileAnalyzer();
     int  analyzeType(){return _analyzeType;}
@@ -44,6 +45,10 @@ public:
     QString _targetFile;
 private:
     int _analyzeType;//解析模式  0：  1；
+    int nameNum=4;//姓名数量
+    int nameLineCount=1;//姓名所在的列序号
+    int workSumaryFirstIndex=10;//今日工作总结序号
+    int tomorrowWorkFirstIndex=15;//明日工作计划序号
 signals:
     void analyzeTypeChanged();
 };

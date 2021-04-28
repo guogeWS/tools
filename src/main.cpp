@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include "FileManger.h"
 #include "WindowsExcelfileAnalyzer.h"
+#include "ImageStitching.h"
 #include <QDir>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -12,10 +13,11 @@ int main(int argc, char *argv[])
     app.setOrganizationName(u8"郭哥ws");
     app.setOrganizationDomain(u8"中国");
     app.setApplicationName(u8"工具集");
-
+    //ImageStitching *imgtool = new ImageStitching();
     QQmlApplicationEngine engine;
-    qmlRegisterType<FileManger>("FileManager" ,1 ,0,"FileManager");
-    qmlRegisterType<WindowsExcelFileAnalyzer>("WindowsExcelFileAnalyzer",1,0,"WindowsExcelFileAnalyzer");
+    qmlRegisterType<FileManger>               ("FileManager"               ,1 ,0    ,"FileManager");
+    qmlRegisterType<WindowsExcelFileAnalyzer> ("WindowsExcelFileAnalyzer"  ,1 ,0    ,"WindowsExcelFileAnalyzer");
+    qmlRegisterType<ImageStitching>           ("ImageStitching"            ,1 ,0    ,"ImageStitching");
     engine.addImportPath("qrc:/qmlComponents");
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 

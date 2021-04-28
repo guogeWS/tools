@@ -104,7 +104,7 @@ Tumbler {
         }
 
     }
-}*/
+}
 Rectangle {
     id: root
     width: 500
@@ -112,7 +112,7 @@ Rectangle {
     color: "black"
     clip: true
     property real  itemCount: calculationItemCount() //(modelList%2==0?modelList-1:modelList)>9?9:(modelList%2==0?modelList-1:modelList)
-    property var   modelList: 4
+    property var   modelList: 200
     property real  columnSpacing: column_airlist.spacing
     property real  buttonItemHeight: 50
     property bool  flickavailable: modelList>=3
@@ -242,6 +242,111 @@ Rectangle {
         }
     }
 }
+*/
+Rectangle{
+    id:contain_rectangle
+    width: parent.width
+    height: parent.height
+    color: "black"
+    clip:true
+    property var maxValue:-10000//最大值
+    property var minValue:10000//最小值
+    property var middleValue:0//中位值
+    property var percent: 0.1//最小刻度
+    property int fixNum: 1
+    Rectangle{
+        width: parent.width
+        height: 2
+        anchors.centerIn: parent
+        color: "white"
+        opacity: 0.5
+    }
+    Rectangle{
+        id:ruler
+        width: 2
+        height: parent.height
+        color: "white"
+        opacity: 0.5
+        //计算出因该使用的刻度
+        function findPercent(){
+        }
+        Column{
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.right
+            Repeater{
+                id:ruler_repater
+                model: 21
+                Item {
+                    width: 4
+                    height: ruler.height/ruler_repater.model
+                    Rectangle{
+                        height: 2
+                        width: 4
+                        anchors.centerIn: parent
+                        color: "white"
+                        Text {
+                            anchors.left: parent.right
+                            color: "white"
+                            text:(index>=10?(middleValue-percent*(index-10)):(middleValue+percent*(10-index))).toFixed(fixNum)
+                            font.pointSize: 10
+                        }
+                    }
+                }
+            }
+        }
+    }
+    Rectangle{
+        id:value_select
+        visible: false
+        width: parent.width*0.9
+        height: parent.height*0.95
+        color: "gray"
+        anchors.centerIn: parent
+        Grid{
+            anchors.fill: parent
+            id:value_select_grid
+            columns: 6
+            Repeater{
+                model:20
+                Rectangle{
+                    width: value_select.width/6
+                    height: width*0.55
+                    color: "white"
+                    border.color: "black"
+                    border.width: 1
+                    property var waveform
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            if(!parent.waveform){
+                                parent.color=Qt.rgba((Math.random()*0.5+0.5), (Math.random()*0.5+0.5), (Math.random()*0.5+0.5), 1)
+                                parent.waveform=painter_component.createObject(contain_rectangle,{"penColor":parent.color,"index":index})
+                                text_timer.triggered.connect(parent.waveform.flash)
+                                text_timer.start()
+                            }else{
+                                parent.color="white"
+                                text_timer.triggered.disconnect(parent.waveform.flash)
+                                parent.waveform.destroy()
+                                parent.waveform=undefined
+                            }
+                        }
+                    }
+                    Text {
+                        anchors.centerIn: parent
+                        //text: flightInfoLoad?flight.analyzeValuelist[index]:0
+                        color: "black"
+                    }
+                }
+            }
+        }
+    }
+    MouseArea{
+        anchors.fill: parent
+        onClicked: {
+            maxValue+=1
+        }
 
+    }
+}
 
 

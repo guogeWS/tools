@@ -54,12 +54,12 @@ void WindowsExcelFileAnalyzer::writeExcelFile(QString fileName){
         lastcell->setProperty("Value",tomoryWorkInfo);
         break;
     case 1:
-        for(int i=10;i<16;i++){
-            QString name=worksheet->querySubObject("Cells(int,int)", i, 2)->property("Value").toString();
+        for(int i=0;i<nameNum;i++){
+            QString name=worksheet->querySubObject("Cells(int,int)", i+workSumaryFirstIndex, nameLineCount)->property("Value").toString();
             qDebug()<<"name name"<<name;
-            QAxObject *cell=worksheet->querySubObject("Cells(int,int)", i, currentIndex);
+            QAxObject *cell=worksheet->querySubObject("Cells(int,int)", i+workSumaryFirstIndex, currentIndex);
             cell->setProperty("Value",infoMap[name].summaryOfTodayWork_simple);
-            QAxObject *tomcell=worksheet->querySubObject("Cells(int,int)", i+6, currentIndex);
+            QAxObject *tomcell=worksheet->querySubObject("Cells(int,int)", i+tomorrowWorkFirstIndex, currentIndex);
             tomcell->setProperty("Value",infoMap[name].tomorrowWorkPlan);
             infoList.append(infoMap[name]);
         }
