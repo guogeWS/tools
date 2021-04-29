@@ -29,7 +29,6 @@ Item {
         selectFolder:true
         onAccepted: {
             fileDirectory.text=windowsExcelFileAnalyzer.slipText(fileDialog.fileUrl)+"/"
-            imageStitching.imageDir=fileDirectory.text
         }
     }
     Column{
@@ -65,12 +64,24 @@ Item {
             }
         }
     }
-    Button{
-        text: "开始"
+    Row{
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
-        onClicked: {
-            imageStitching.startWork()
+        spacing: parent.width*0.1
+        Button{
+            text: "开始合成"
+            onClicked: {
+                imageStitching.imageDir=fileDirectory.text
+                imageStitching.startWork()
+            }
+        }
+        Button{
+            text: "开始采集"
+            onClicked: {
+                imageStitching.imageDir=fileDirectory.text
+                imageStitching.screenClip()
+            }
         }
     }
+
 }
