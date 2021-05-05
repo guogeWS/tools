@@ -32,6 +32,7 @@ Item {
         }
     }
     Column{
+        spacing: 10
         Text {
             text: "请设置素材图片所在目录:"
             font.pixelSize: titleFontSize
@@ -63,6 +64,71 @@ Item {
                 }
             }
         }
+        Row{
+            Text {
+                font.pixelSize: subFontSize*0.8
+                color: "white"
+                text: "起始页码:"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Rectangle{
+                width: children[0].width+30
+                height: titleFontSize
+                color: "#00000000"
+                border.color: "white"
+                border.width: 2
+                anchors.verticalCenter: parent.verticalCenter
+                TextInput{
+                    anchors.centerIn: parent
+                    font.pixelSize: subFontSize*0.8
+                    color: "white"
+                    text: imageStitching.startPage
+                    onAccepted: {
+                        focus=false
+                        imageStitching.startPage=Number(text)
+                    }
+                    onEditingFinished: {
+                        focus=false
+                        imageStitching.startPage=Number(text)
+                    }
+                }
+            }
+            Item {
+                width: 100
+                height: subFontSize
+
+            }
+            Text {
+                font.pixelSize: subFontSize*0.8
+                color: "white"
+                text: "结束页码:"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            Rectangle{
+                width: children[0].width+30
+                height: titleFontSize
+                color: "#00000000"
+                border.color: "white"
+                border.width: 2
+                anchors.verticalCenter: parent.verticalCenter
+                TextInput{
+                    anchors.centerIn: parent
+                    font.pixelSize: subFontSize*0.8
+                    color: "white"
+                    text: imageStitching.endPage
+                    onAccepted: {
+                        focus=false
+                        imageStitching.endPage=Number(text)
+                    }
+                    onEditingFinished: {
+                        focus=false
+                        imageStitching.endPage=Number(text)
+                    }
+                }
+            }
+        }
+
     }
     Row{
         anchors.bottom: parent.bottom

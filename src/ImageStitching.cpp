@@ -18,7 +18,7 @@ void ImageStitching::startWork(){
     for(int i=0;i<nameList.length();i++){
         imageNameList.append(path + nameList[i]);
     }
-    for(int i=1;i<100;i++){
+    for(int i=_startPage;i<=_endPage;i++){
         QString nameA=_imageDir +QString::number(i)+"-A.jpg";
         QString nameB=_imageDir +QString::number(i)+"-B.jpg";
         QString nameC=_imageDir +QString::number(i)+"-C.jpg";
@@ -39,38 +39,43 @@ void ImageStitching::stitchFunction(QString nameA, QString nameB, QString nameC,
     sourceImage3=sourceImage3.copy(0,sourceImage3.height()*0.1,sourceImage3.width(),sourceImage3.height()*0.9);
     sourceImage4.load(nameD,"png");
     sourceImage4=sourceImage4.copy(0,sourceImage4.height()*0.1,sourceImage4.width(),sourceImage4.height()*0.9);
-    QPixmap *mainImage=new QPixmap(sourceImage1.width()*2,2920);
-    QPainter painter(mainImage);
-    painter.drawPixmap(0,0,sourceImage1.width(),sourceImage1.height(),sourceImage1);
-    painter.drawPixmap(sourceImage1.width(),0,sourceImage2.width(),sourceImage2.height(),sourceImage2);
-    painter.drawPixmap(0,mainImage->height()-sourceImage3.height(),sourceImage3.width(),sourceImage3.height(),sourceImage3);
-    painter.drawPixmap(sourceImage1.width(),mainImage->height()-sourceImage4.height(),sourceImage4.width(),sourceImage4.height(),sourceImage4);
+    QPixmap result(sourceImage1.width()*2,2920);
+    mainImage=&result;
+    painter->begin(mainImage);
+    painter->drawPixmap(0,0,sourceImage1.width(),sourceImage1.height(),sourceImage1);
+    painter->drawPixmap(sourceImage1.width(),0,sourceImage2.width(),sourceImage2.height(),sourceImage2);
+    painter->drawPixmap(0,mainImage->height()-sourceImage3.height(),sourceImage3.width(),sourceImage3.height(),sourceImage3);
+    painter->drawPixmap(sourceImage1.width(),mainImage->height()-sourceImage4.height(),sourceImage4.width(),sourceImage4.height(),sourceImage4);
     mainImage->save(QString::number(index) + ".jpg");
+    painter->end();
+    //painter->end();
     //delete mainImage;
 }
 void ImageStitching::screencap(){
     QStringList cmd;
-    int pageCount=(screencapCount/4)+1;
+
+    int pageCount=(screencapCount/4)+_startPage;
     int chipCount=screencapCount%4+1;
+    qDebug()<<"pageCount"<<pageCount;
     switch (chipCount) {
     case 1:
-        cmd=QStringList() << "/c" <<QString("adb exec-out screencap -p > %3/%1-%2.jpg").arg(pageCount).arg("A").arg(_imageDir);
+        cmd=QStringList() << "/c" <<QString("c:/adb/adb.exe exec-out screencap -p > %3/%1-%2.jpg").arg(pageCount).arg("A").arg(_imageDir);
         break;
     case 2:
-        cmd=QStringList() << "/c" <<QString("adb exec-out screencap -p > %3/%1-%2.jpg").arg(pageCount).arg("C").arg(_imageDir);
+        cmd=QStringList() << "/c" <<QString("c:/adb/adb.exe exec-out screencap -p > %3/%1-%2.jpg").arg(pageCount).arg("C").arg(_imageDir);
         break;
     case 3:
-        cmd=QStringList() << "/c" <<QString("adb exec-out screencap -p > %3/%1-%2.jpg").arg(pageCount).arg("B").arg(_imageDir);
+        cmd=QStringList() << "/c" <<QString("c:/adb/adb.exe exec-out screencap -p > %3/%1-%2.jpg").arg(pageCount).arg("B").arg(_imageDir);
         break;
     case 4:
-        cmd=QStringList() << "/c" <<QString("adb exec-out screencap -p > %3/%1-%2.jpg").arg(pageCount).arg("D").arg(_imageDir);
+        cmd=QStringList() << "/c" <<QString("c:/adb/adb.exe exec-out screencap -p > %3/%1-%2.jpg").arg(pageCount).arg("D").arg(_imageDir);
         break;
     default:
         break;
     }
     myProcess->start("cmd.exe",cmd);
     myProcess->waitForFinished();
-    myProcess->start("adb shell input keyevent  25");
+    myProcess->start("c:/adb/adb.exe shell input keyevent  25");
     myProcess->waitForFinished();
     sleep(2000);
     screencapCount++;

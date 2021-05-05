@@ -7,7 +7,7 @@ ApplicationWindow {
     id:rootWindow
     visible: true
     width: 640
-    height: 550
+    height: 450
     title: qsTr("私人工具箱")
     function closeAll(){
         excelAnalyzerView.visible=false
