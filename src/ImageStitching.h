@@ -26,6 +26,7 @@ class ImageStitching:public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString imageDir READ imageDir WRITE setImageDir NOTIFY imageDirChanged)
+    //Q_PROPERTY(int     pageNum READ pageNum WRITE setPageNum NOTIFY pageNumChanged)//页码数量
 public:
     ImageStitching();
     QString imageDir(){return _imageDir;}

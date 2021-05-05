@@ -16,7 +16,7 @@ Item {
     }
     Settings{
         id:settings
-        property alias path: fileDirectory.text
+        property alias path: fileDirectory2.text
     }
     WindowsExcelFileAnalyzer{
         id:windowsExcelFileAnalyzer
@@ -28,7 +28,7 @@ Item {
         id:fileDialog
         selectFolder:true
         onAccepted: {
-            fileDirectory.text=windowsExcelFileAnalyzer.slipText(fileDialog.fileUrl)+"/"
+            fileDirectory2.text=windowsExcelFileAnalyzer.slipText(fileDialog.fileUrl)+"/"
         }
     }
     Column{
@@ -41,7 +41,7 @@ Item {
         Row{
             spacing: 10
             TextInput{
-                id:fileDirectory
+                id:fileDirectory2
                 width: 500
                 height: subFontSize
                 font.pixelSize: subFontSize*0.8
@@ -71,14 +71,14 @@ Item {
         Button{
             text: "开始合成"
             onClicked: {
-                imageStitching.imageDir=fileDirectory.text
+                imageStitching.imageDir=fileDirectory2.text
                 imageStitching.startWork()
             }
         }
         Button{
             text: "开始采集"
             onClicked: {
-                imageStitching.imageDir=fileDirectory.text
+                imageStitching.imageDir=fileDirectory2.text
                 imageStitching.screenClip()
             }
         }
