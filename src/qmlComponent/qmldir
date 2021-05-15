@@ -4,3 +4,4 @@ FontList          1.0    FontList.qml
 Test              1.0    Test.qml
 FileInfoView      1.0    FileInfoView.qml
 ImageStitchView   1.0    ImageStitchView.qml
+QtApplicationPackage 1.0 QtApplicationPackage.qml

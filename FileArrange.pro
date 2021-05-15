@@ -18,7 +18,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += src/main.cpp \
     src/FileManger.cpp \
     src/WindowsExcelfileAnalyzer.cpp \
-    src/ImageStitching.cpp
+    src/ImageStitching.cpp \
+    src/GlobalTool.cpp
 
 RESOURCES += qml.qrc \
     filearrange.qrc
@@ -37,7 +38,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     src/FileManger.h \
     src/WindowsExcelfileAnalyzer.h \
-    src/ImageStitching.h
+    src/ImageStitching.h \
+    src/GlobalTool.h
 
 INCLUDEPATH +=   \
     src/qmlComponent
