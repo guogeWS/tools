@@ -7,8 +7,8 @@ import GlobalTool               1.0
 ApplicationWindow {
     id:rootWindow
     visible: true
-    width: 640/GlobalTool.getScale()
-    height: 600/GlobalTool.getScale()
+    width: 640*GlobalTool.getScale()
+    height: 600*GlobalTool.getScale()
     title: qsTr("私人工具箱")
     function closeAll(){
         excelAnalyzerView.visible=false

@@ -4,10 +4,11 @@ import QtQuick.Dialogs   1.2
 import Qt.labs.settings  1.0
 import WindowsExcelFileAnalyzer 1.0
 import Tools             1.0
+import GlobalTool        1.0
 Item {
     id:root
-    property real titleFontSize: 30
-    property real subFontSize: 30
+    property real titleFontSize: 30*GlobalTool.getScale()
+    property real subFontSize: 30*GlobalTool.getScale()
     Rectangle{
         anchors.fill: parent
         color: "#1a76d1"
@@ -114,7 +115,7 @@ Item {
             spacing: 10
             TextInput{
                 id:fileDirectory
-                width: 500
+                width: root.width*0.7
                 height: subFontSize
                 font.pixelSize: subFontSize*0.8
                 color: "white"
@@ -145,7 +146,7 @@ Item {
             spacing: 10
             TextInput{
                 id:filePath
-                width: 500
+                width: root.width*0.7
                 height: subFontSize
                 font.pixelSize: subFontSize*0.8
                 color: "white"
@@ -161,7 +162,8 @@ Item {
             Button{
                 width: subFontSize
                 height: subFontSize
-                text: "浏览"
+                text: "..."
+                font.pixelSize: height*0.7
                 onClicked: {
                     fileDialog2.open()
                 }
@@ -185,7 +187,7 @@ Item {
                 checked: windowsExcelFileAnalyzer.analyzeType==0
                 text: "模式1"
                 font.family: fontlist.blackFont.name
-                font.pixelSize: 18
+                font.pixelSize: subFontSize*0.6
                 onCheckedChanged:{
                     if(checked){
                         windowsExcelFileAnalyzer.analyzeType=0
@@ -196,7 +198,7 @@ Item {
                 checked: windowsExcelFileAnalyzer.analyzeType==1
                 text: "模式2"
                 font.family: fontlist.blackFont.name
-                font.pixelSize: 18
+                font.pixelSize: subFontSize*0.6
                 onCheckedChanged:{
                     if(checked){
                         windowsExcelFileAnalyzer.analyzeType=1
@@ -207,7 +209,7 @@ Item {
                 checked: windowsExcelFileAnalyzer.analyzeType==2
                 text: "模式3"
                 font.family: fontlist.blackFont.name
-                font.pixelSize: 18
+                font.pixelSize: subFontSize*0.6
                 onCheckedChanged:{
                     if(checked){
                         windowsExcelFileAnalyzer.analyzeType=2
@@ -216,8 +218,8 @@ Item {
             }
         }
         Rectangle{
-            width: 550
-            height: 150
+            width: 550*GlobalTool.getScale()
+            height: 150*GlobalTool.getScale()
             color: "#00000000"
             border.color: "white"
             border.width: 2

@@ -4,16 +4,14 @@ import QtQuick.Dialogs   1.2
 import Qt.labs.settings  1.0
 import WindowsExcelFileAnalyzer 1.0
 import ImageStitching    1.0
+import GlobalTool        1.0
 Item {
     id:root
-    property real titleFontSize: 30
-    property real subFontSize: 30
+    property real titleFontSize: 30*GlobalTool.getScale()
+    property real subFontSize: 30*GlobalTool.getScale()
     Rectangle{
         anchors.fill: parent
         color: "#1a76d1"
-    }
-    FontList{
-        id:fontlist
     }
     Settings{
         id:settings
@@ -44,7 +42,7 @@ Item {
             spacing: 10
             TextInput{
                 id:fileDirectory2
-                width: 500
+                width: root.width*0.7
                 height: subFontSize
                 font.pixelSize: subFontSize*0.8
                 color: "white"

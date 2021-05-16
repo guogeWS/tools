@@ -19,10 +19,10 @@ int main(int argc, char *argv[])
     app.setOrganizationName(u8"郭哥ws");
     app.setOrganizationDomain(u8"中国");
     app.setApplicationName(u8"工具集");
-    QSystemTrayIcon systemarayicon=new QSystemTrayIcon();
-    systemarayicon.setIcon(QIcon(":/img/images/tools.png"));
-    systemarayicon.setToolTip(u8"工具集");
-    systemarayicon.show();
+    QSystemTrayIcon *systemarayicon=new QSystemTrayIcon();
+    systemarayicon->setIcon(QIcon(":/img/images/tools.png"));
+    systemarayicon->setToolTip(u8"工具集");
+    systemarayicon->show();
     QQmlApplicationEngine engine;
     qmlRegisterType<FileManger>               ("FileManager"               ,1 ,0    ,"FileManager");
     qmlRegisterType<WindowsExcelFileAnalyzer> ("WindowsExcelFileAnalyzer"  ,1 ,0    ,"WindowsExcelFileAnalyzer");
