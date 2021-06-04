@@ -27,6 +27,11 @@ Item {
         property alias mounth:mounthText.text
         property alias day:dayText.text
         property alias saveType: windowsExcelFileAnalyzer.analyzeType
+        property alias nameCount: windowsExcelFileAnalyzer.nameNumQML
+        property alias nameColumn: windowsExcelFileAnalyzer.nameLineCountQML
+        property alias workIndex: windowsExcelFileAnalyzer.workIndex
+        property alias tomIndex: windowsExcelFileAnalyzer.tommIndex
+        property alias dataCount: windowsExcelFileAnalyzer.dataLineCountQML
     }
     Column{
         spacing: 10
@@ -183,37 +188,126 @@ Item {
             }
         }
         Row{
-            RadioButton {
-                checked: windowsExcelFileAnalyzer.analyzeType==0
-                text: "模式1"
+            spacing: 20
+            Text {
+                font.pixelSize: subFontSize*0.8
                 font.family: fontlist.blackFont.name
-                font.pixelSize: subFontSize*0.6
-                onCheckedChanged:{
-                    if(checked){
-                        windowsExcelFileAnalyzer.analyzeType=0
-                    }
+                color: "white"
+                text: "日期所在行号:"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            TextInput{
+                width: 50
+                height: subFontSize
+                font.pixelSize: subFontSize*0.8
+                color: "white"
+                text: settings.dataCount
+                onAccepted: {
+                    settings.dataCount=text
+                    focus=false
+                }
+                Rectangle{
+                    anchors.fill: parent
+                    color: "#00000000"
+                    border.color: "white"
                 }
             }
-            RadioButton {
-                checked: windowsExcelFileAnalyzer.analyzeType==1
-                text: "模式2"
+        }
+        Row{
+            spacing: 20
+            Text {
+                font.pixelSize: subFontSize*0.8
                 font.family: fontlist.blackFont.name
-                font.pixelSize: subFontSize*0.6
-                onCheckedChanged:{
-                    if(checked){
-                        windowsExcelFileAnalyzer.analyzeType=1
-                    }
+                color: "white"
+                text: "姓名数量:"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            TextInput{
+                width: 50
+                height: subFontSize
+                font.pixelSize: subFontSize*0.8
+                color: "white"
+                text: settings.nameCount
+                onAccepted: {
+                    settings.nameCount=text
+                    focus=false
+                }
+                Rectangle{
+                    anchors.fill: parent
+                    color: "#00000000"
+                    border.color: "white"
                 }
             }
-            RadioButton {
-                checked: windowsExcelFileAnalyzer.analyzeType==2
-                text: "模式3"
+            Text {
+                font.pixelSize: subFontSize*0.8
                 font.family: fontlist.blackFont.name
-                font.pixelSize: subFontSize*0.6
-                onCheckedChanged:{
-                    if(checked){
-                        windowsExcelFileAnalyzer.analyzeType=2
-                    }
+                color: "white"
+                text: "姓名所在列号:"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            TextInput{
+                width: 50
+                height: subFontSize
+                font.pixelSize: subFontSize*0.8
+                color: "white"
+                text: settings.nameColumn
+                onAccepted: {
+                    settings.nameColumn=text
+                    focus=false
+                }
+                Rectangle{
+                    anchors.fill: parent
+                    color: "#00000000"
+                    border.color: "white"
+                }
+            }
+        }
+        Row{
+            spacing: 20
+            Text {
+                font.pixelSize: subFontSize*0.8
+                font.family: fontlist.blackFont.name
+                color: "white"
+                text: "总结所在行号:"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            TextInput{
+                width: 50
+                height: subFontSize
+                font.pixelSize: subFontSize*0.8
+                color: "white"
+                text: settings.workIndex
+                onAccepted: {
+                    settings.workIndex=text
+                    focus=false
+                }
+                Rectangle{
+                    anchors.fill: parent
+                    color: "#00000000"
+                    border.color: "white"
+                }
+            }
+            Text {
+                font.pixelSize: subFontSize*0.8
+                font.family: fontlist.blackFont.name
+                color: "white"
+                text: "计划所在行号:"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            TextInput{
+                width: 50
+                height: subFontSize
+                font.pixelSize: subFontSize*0.8
+                color: "white"
+                text: settings.tomIndex
+                onAccepted: {
+                    settings.tomIndex=text
+                    focus=false
+                }
+                Rectangle{
+                    anchors.fill: parent
+                    color: "#00000000"
+                    border.color: "white"
                 }
             }
         }
