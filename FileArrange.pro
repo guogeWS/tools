@@ -19,7 +19,8 @@ SOURCES += src/main.cpp \
     src/FileManger.cpp \
     src/WindowsExcelfileAnalyzer.cpp \
     src/ImageStitching.cpp \
-    src/GlobalTool.cpp
+    src/GlobalTool.cpp \
+    src/ApplicationPackage.cpp
 
 RESOURCES += qml.qrc \
     filearrange.qrc
@@ -39,7 +40,8 @@ HEADERS += \
     src/FileManger.h \
     src/WindowsExcelfileAnalyzer.h \
     src/ImageStitching.h \
-    src/GlobalTool.h
+    src/GlobalTool.h \
+    src/ApplicationPackage.h
 
 INCLUDEPATH +=   \
     src/qmlComponent
