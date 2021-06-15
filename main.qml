@@ -97,7 +97,7 @@ ApplicationWindow {
         }
     }
     Component.onCompleted: {
-        testFunction()
+        //testFunction3()
     }
     function testFunction2(){
         var x1=0
@@ -143,5 +143,62 @@ ApplicationWindow {
         var t1=(-b+Math.sqrt(b*b-4*a*c))/(2*a)
         var t2=(-b-Math.sqrt(b*b-4*a*c))/(2*a)
         console.log("time 1:"+t1+" time 2:"+t2)
+    }
+    function testFunction3(){
+        var tarX1
+        var tarX2
+        var tarY1
+        var tarY2
+        var x1=150
+        var y1=150
+        var x2=0
+        var y2=0
+        var rad=300
+        var angle=270
+        var k=1/Math.tan(angle/180*Math.PI)
+        var b=y1-k*x1
+        var A=1+k*k
+        var B=2*k*(b-y2)-2*x2
+        var C=x2*x2+(b-y2)*(b-y2)-rad*rad
+        if(angle==0||angle==180){
+            tarX1=x1
+            tarX2=x1
+            tarY1=y2+Math.sqrt(rad*rad-(tarX1-x2)*(tarX1-x2))
+            tarY2=y2-Math.sqrt(rad*rad-(tarX1-x2)*(tarX1-x2))
+        }else{
+            tarX1=(-B+Math.sqrt(B*B-4*A*C))/(2*A)
+            tarX2=(-B-Math.sqrt(B*B-4*A*C))/(2*A)
+            tarY1=k*tarX1+b
+            tarY2=k*tarX2+b
+        }
+        if(angle==0){
+            if(tarY1>y1){
+                console.log("x1:"+tarX1+" y1:"+tarY1)
+            }else{
+                console.log("x1:"+tarX2+" y1:"+tarY2)
+            }
+            return
+        }
+        if(angle==180){
+            if(tarY1<y1){
+                console.log("x1:"+tarX1+" y1:"+tarY1)
+            }else{
+                console.log("x1:"+tarX2+" y1:"+tarY2)
+            }
+            return
+        }
+        if(angle<180){
+            if(tarX1>x1){
+                console.log("x1:"+tarX1+" y1:"+tarY1)
+            }else{
+                console.log("x1:"+tarX2+" y1:"+tarY2)
+            }
+        }else if(angle>=180){
+            if(tarX1>x1){
+                console.log("x1:"+tarX2+" y1:"+tarY2)
+            }else{
+                console.log("x1:"+tarX1+" y1:"+tarY1)
+            }
+        }
     }
 }

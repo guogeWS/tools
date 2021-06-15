@@ -4,10 +4,12 @@
 #include "WindowsExcelfileAnalyzer.h"
 #include "ImageStitching.h"
 #include "GlobalTool.h"
+#include "InitApp.h"
 #include <QDir>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSystemTrayIcon>
+#include <QQuickWindow>
 QObject * getGloalToolsFunction(QQmlEngine* ,QJSEngine *){
     GlobalTool* tools=new GlobalTool();
     return tools;
@@ -19,11 +21,8 @@ int main(int argc, char *argv[])
     app.setOrganizationName(u8"郭哥ws");
     app.setOrganizationDomain(u8"中国");
     app.setApplicationName(u8"工具集");
-    QSystemTrayIcon *systemarayicon=new QSystemTrayIcon();
-    systemarayicon->setIcon(QIcon(":/img/images/tools.png"));
-    systemarayicon->setToolTip(u8"工具集");
-    systemarayicon->show();
     QQmlApplicationEngine engine;
+    InitApp *initApp=new InitApp(&engine);
     qmlRegisterType<FileManger>               ("FileManager"               ,1 ,0    ,"FileManager");
     qmlRegisterType<WindowsExcelFileAnalyzer> ("WindowsExcelFileAnalyzer"  ,1 ,0    ,"WindowsExcelFileAnalyzer");
     qmlRegisterType<ImageStitching>           ("ImageStitching"            ,1 ,0    ,"ImageStitching");
@@ -33,6 +32,8 @@ int main(int argc, char *argv[])
 
     if (engine.rootObjects().isEmpty())
         return -1;
-    return app.exec();
+    int exitCode=app.exec();
+    initApp->exitApp();
+    return exitCode;
 }
 
