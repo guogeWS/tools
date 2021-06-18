@@ -3,6 +3,7 @@
 #include "FileManger.h"
 #include "WindowsExcelfileAnalyzer.h"
 #include "ImageStitching.h"
+#include "ApplicationPackage.h"
 #include "GlobalTool.h"
 #include "InitApp.h"
 #include <QDir>
@@ -26,6 +27,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<FileManger>               ("FileManager"               ,1 ,0    ,"FileManager");
     qmlRegisterType<WindowsExcelFileAnalyzer> ("WindowsExcelFileAnalyzer"  ,1 ,0    ,"WindowsExcelFileAnalyzer");
     qmlRegisterType<ImageStitching>           ("ImageStitching"            ,1 ,0    ,"ImageStitching");
+    qmlRegisterType<ApplicationPackage>       ("ApplicationPackage"        ,1 ,0    ,"ApplicationPackage");
     qmlRegisterSingletonType<GlobalTool>      ("GlobalTool"                ,1 ,0    ,"GlobalTool"          ,getGloalToolsFunction);
     engine.addImportPath("qrc:/qmlComponents");
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));

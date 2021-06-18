@@ -7,7 +7,7 @@ ImageStitching::ImageStitching()
 }
 void ImageStitching::screenClip(){
     screencapCount=0;
-    screencapTimer.setInterval(1000);
+    screencapTimer.setInterval(3000);
     setCollecting(true);
     connect(&screencapTimer,&QTimer::timeout,this,&ImageStitching::screencap);
     screencapTimer.start();
@@ -88,9 +88,7 @@ void ImageStitching::screencap(){
     myProcess->waitForFinished();
     myProcess->start("c:/adb/adb.exe shell input keyevent  25");
     myProcess->waitForFinished();
-    sleep(2000);
     screencapCount++;
-
 }
 void ImageStitching::sleep(int msec){
     QTime dieTime = QTime::currentTime().addMSecs(msec);

@@ -7,8 +7,9 @@
 import QtQuick                  2.7
 import QtQuick.Controls         2.2
 import QtQuick.Dialogs          1.2
-import WindowsExcelFileAnalyzer 1.0
+import ApplicationPackage       1.0
 import GlobalTool               1.0
+import Qt.labs.settings         1.0
 Item {
     id:root
     anchors.fill: parent
@@ -16,6 +17,13 @@ Item {
     property int mode : 1  //   1.msvc 2. minGW 两种编译器
     property real titleFontSize: 30
     property real subFontSize: 30
+    ApplicationPackage{
+        id:applicationPackage
+    }
+    Settings{
+        id:settings
+        property alias qmlPath: qmlPath.text
+    }
     Rectangle{
         anchors.fill: parent
         color: "#1a76d1"
@@ -24,6 +32,15 @@ Item {
         id:fileDialog
         onAccepted: {
             filePath.text=GlobalTool.slipText(fileDialog.fileUrl)
+
+        }
+    }
+    FileDialog{
+        id:qmlDialog
+        selectFolder:true
+        onAccepted: {
+            //console.log("AAAAAAAAAA"+qmlDialog.folder)
+            qmlPath.text=GlobalTool.slipText(qmlDialog.folder)
         }
     }
     Column{
@@ -59,6 +76,49 @@ Item {
                 onClicked: {
                     fileDialog.open()
                 }
+            }
+        }
+        Text {
+            text: "qml组件路径:"
+            font.pixelSize: titleFontSize
+            font.family: fontlist.blackFont.name
+            color: "white"
+        }
+        Row{
+            spacing: 10
+            TextInput{
+                id:qmlPath
+                width: 500
+                height: subFontSize
+                font.pixelSize: subFontSize*0.8
+                color: "white"
+                property string placeHoldMessage: ""
+                anchors.verticalCenter: parent.verticalCenter
+                clip: true
+                Rectangle{
+                    anchors.fill: parent
+                    color: "#00000000"
+                    border.color: "white"
+                    border.width: 2
+                }
+            }
+            Button{
+                width: subFontSize
+                height: subFontSize
+                text: "浏览"
+                onClicked: {
+                    qmlDialog.open()
+                }
+            }
+        }
+        Button{
+            text: "打包"
+            anchors.horizontalCenter: parent.horizontalCenter
+            onClicked: {
+                applicationPackage.filePath=filePath.text
+                applicationPackage.qmlLibPath=qmlPath.text
+                applicationPackage.copyQtFile()
+                applicationPackage.copyQtFile2()
             }
         }
     }
