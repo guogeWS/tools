@@ -1,4 +1,7 @@
-﻿import QtQuick 2.7
+﻿/*
+  ugc杂志安卓图片提取
+  */
+import QtQuick 2.7
 import QtQuick.Controls  2.2
 import QtQuick.Dialogs   1.2
 import Qt.labs.settings  1.0
@@ -15,10 +18,7 @@ Item {
     }
     Settings{
         id:settings
-        property alias path: fileDirectory2.text
-    }
-    WindowsExcelFileAnalyzer{
-        id:windowsExcelFileAnalyzer
+        property alias path2: fileDirectory2.text
     }
     ImageStitching{
         id:imageStitching
@@ -27,7 +27,7 @@ Item {
         id:fileDialog
         selectFolder:true
         onAccepted: {
-            fileDirectory2.text=windowsExcelFileAnalyzer.slipText(fileDialog.fileUrl)+"/"
+            fileDirectory2.text=GlobalTool.slipText(fileDialog.fileUrl)+"/"
         }
     }
     Column{
@@ -103,7 +103,6 @@ Item {
                 text: "结束页码:"
                 anchors.verticalCenter: parent.verticalCenter
             }
-
             Rectangle{
                 width: children[0].width+30
                 height: titleFontSize

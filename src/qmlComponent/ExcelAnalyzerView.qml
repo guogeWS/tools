@@ -13,9 +13,6 @@ Item {
         anchors.fill: parent
         color: "#1a76d1"
     }
-    FontList{
-        id:fontlist
-    }
     WindowsExcelFileAnalyzer{
         id:windowsExcelFileAnalyzer
     }
@@ -311,36 +308,38 @@ Item {
                 }
             }
         }
-        Rectangle{
-            width: 550*GlobalTool.getScale()
-            height: 150*GlobalTool.getScale()
-            color: "#00000000"
-            border.color: "white"
-            border.width: 2
-            clip: true
-            ScrollView{
-                anchors.fill: parent
-                TextArea{
-                    id:outputMessageArea
-                    font.pixelSize: 20
-                    font.family: fontlist.blackFont.name
-                    color: "black"
-                    selectByKeyboard: true
-                    selectByMouse: true
+        Row{
+            spacing: 10
+            Rectangle{
+                width: 550*GlobalTool.getScale()
+                height: 150*GlobalTool.getScale()
+                color: "#00000000"
+                border.color: "white"
+                border.width: 2
+                clip: true
+                ScrollView{
+                    anchors.fill: parent
+                    TextArea{
+                        id:outputMessageArea
+                        font.pixelSize: 20
+                        font.family: fontlist.blackFont.name
+                        color: "black"
+                        selectByKeyboard: true
+                        selectByMouse: true
+                    }
                 }
             }
-        }
-
-    }
-    Button{
-        text: "开始"
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        onClicked: {
-            windowsExcelFileAnalyzer.setTargetFile(windowsExcelFileAnalyzer.slipText(filePath.text))
-            windowsExcelFileAnalyzer.setCurrentData(yearText.text,mounthText.text,dayText.text)
-            windowsExcelFileAnalyzer.getUsefulFile(fileDirectory.text)
-            outputMessageArea.text=windowsExcelFileAnalyzer.outPutToTxtFile("")
+            Button{
+                width: 60
+                text: "开始"
+                anchors.verticalCenter: parent.verticalCenter
+                onClicked: {
+                    windowsExcelFileAnalyzer.setTargetFile(windowsExcelFileAnalyzer.slipText(filePath.text))
+                    windowsExcelFileAnalyzer.setCurrentData(yearText.text,mounthText.text,dayText.text)
+                    windowsExcelFileAnalyzer.getUsefulFile(fileDirectory.text)
+                    outputMessageArea.text=windowsExcelFileAnalyzer.outPutToTxtFile("")
+                }
+            }
         }
     }
 }
