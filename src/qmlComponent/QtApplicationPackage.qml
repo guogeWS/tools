@@ -13,8 +13,8 @@ import Qt.labs.settings         1.0
 Item {
     id:root
     anchors.fill: parent
-    property var tarPath
-    property int mode : 1  //   1.msvc 2. minGW 两种编译器
+    property var  tarPath
+    property int  mode : 1  //   1.msvc 2. minGW 两种编译器
     property real titleFontSize: 30
     property real subFontSize: 30
     ApplicationPackage{
@@ -32,7 +32,6 @@ Item {
         id:fileDialog
         onAccepted: {
             filePath.text=GlobalTool.slipText(fileDialog.fileUrl)
-
         }
     }
     FileDialog{

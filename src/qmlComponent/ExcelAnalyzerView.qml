@@ -13,9 +13,6 @@ Item {
         anchors.fill: parent
         color: "#1a76d1"
     }
-    FontList{
-        id:fontlist
-    }
     WindowsExcelFileAnalyzer{
         id:windowsExcelFileAnalyzer
     }

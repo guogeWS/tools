@@ -21,7 +21,8 @@ SOURCES += src/main.cpp \
     src/ImageStitching.cpp \
     src/GlobalTool.cpp \
     src/ApplicationPackage.cpp \
-    src/InitApp.cpp
+    src/InitApp.cpp \
+    src/AutoStartSetting.cpp
 
 RESOURCES += qml.qrc \
     filearrange.qrc
@@ -43,7 +44,8 @@ HEADERS += \
     src/ImageStitching.h \
     src/GlobalTool.h \
     src/ApplicationPackage.h \
-    src/InitApp.h
+    src/InitApp.h \
+    src/AutoStartSetting.h
 
 INCLUDEPATH +=   \
     src/qmlComponent

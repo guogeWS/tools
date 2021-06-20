@@ -15,6 +15,7 @@ ApplicationWindow {
         fileInfoView.visible=false
         imageStitchView.visible=false
         qtApplicationPackage.visible=false
+        powerOnAutoStartPage.visible=false
     }
     FontList{
         id:fontlist
@@ -55,6 +56,7 @@ ApplicationWindow {
             text: "快速设置开机自启"
             onClicked: {
                 closeAll()
+                powerOnAutoStartPage.visible=true
             }
         }
         TabButton{
@@ -92,6 +94,11 @@ ApplicationWindow {
         }
         QtApplicationPackage{
             id:qtApplicationPackage
+            anchors.fill:parent
+            visible:false
+        }
+        PowerOnAutoStartPage{
+            id:powerOnAutoStartPage
             anchors.fill:parent
             visible:false
         }

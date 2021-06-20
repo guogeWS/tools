@@ -11,6 +11,7 @@
 #include <QSqlError>
 #include <QSystemTrayIcon>
 #include <QQuickWindow>
+#include "AutoStartSetting.h"
 QObject * getGloalToolsFunction(QQmlEngine* ,QJSEngine *){
     GlobalTool* tools=new GlobalTool();
     return tools;
@@ -28,6 +29,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<WindowsExcelFileAnalyzer> ("WindowsExcelFileAnalyzer"  ,1 ,0    ,"WindowsExcelFileAnalyzer");
     qmlRegisterType<ImageStitching>           ("ImageStitching"            ,1 ,0    ,"ImageStitching");
     qmlRegisterType<ApplicationPackage>       ("ApplicationPackage"        ,1 ,0    ,"ApplicationPackage");
+    qmlRegisterType<AutoStartSetting>         ("AutoStartSetting"          ,1 ,0    ,"AutoStartSetting");
     qmlRegisterSingletonType<GlobalTool>      ("GlobalTool"                ,1 ,0    ,"GlobalTool"          ,getGloalToolsFunction);
     engine.addImportPath("qrc:/qmlComponents");
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
