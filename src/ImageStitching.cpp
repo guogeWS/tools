@@ -1,5 +1,5 @@
 ﻿#include "ImageStitching.h"
-
+#include "GlobalTool.h"
 ImageStitching::ImageStitching()
 {
 //    work=new ScreencapWork();
@@ -86,6 +86,7 @@ void ImageStitching::screencap(){
     }
     myProcess->start("cmd.exe",cmd);
     myProcess->waitForFinished();
+    GlobalTool::msecSleep(1000);
     myProcess->start("c:/adb/adb.exe shell input keyevent  25");
     myProcess->waitForFinished();
     screencapCount++;
