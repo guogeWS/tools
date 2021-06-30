@@ -15,8 +15,8 @@ Item {
     anchors.fill: parent
     property var  tarPath
     property int  mode : 1  //   1.msvc 2. minGW 两种编译器
-    property real titleFontSize: 30
-    property real subFontSize: 30
+    property real titleFontSize: 30*GlobalTool.getScale()
+    property real subFontSize: 30*GlobalTool.getScale()
     ApplicationPackage{
         id:applicationPackage
     }
@@ -38,7 +38,6 @@ Item {
         id:qmlDialog
         selectFolder:true
         onAccepted: {
-            //console.log("AAAAAAAAAA"+qmlDialog.folder)
             qmlPath.text=GlobalTool.slipText(qmlDialog.folder)
         }
     }
@@ -54,7 +53,7 @@ Item {
             spacing: 10
             TextInput{
                 id:filePath
-                width: 500
+                width: root.width*0.7
                 height: subFontSize
                 font.pixelSize: subFontSize*0.8
                 color: "white"
@@ -87,7 +86,7 @@ Item {
             spacing: 10
             TextInput{
                 id:qmlPath
-                width: 500
+                width: root.width*0.7
                 height: subFontSize
                 font.pixelSize: subFontSize*0.8
                 color: "white"
