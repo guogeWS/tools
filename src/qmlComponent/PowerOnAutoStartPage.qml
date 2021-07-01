@@ -59,7 +59,11 @@ Item {
             text: "设置开机自启"
             onClicked: {
                 autoStartSetting.filePath=filePath.text
-                autoStartSetting.creatLink()
+                if(autoStartSetting.creatLink()){
+                    showMessage("设置成功")
+                }else{
+                    showMessage("设置失败")
+                }
             }
         }
     }

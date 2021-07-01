@@ -103,6 +103,38 @@ ApplicationWindow {
             visible:false
         }
     }
+    Rectangle{
+        id:messageBox
+        width: message.width+parent.width*0.1
+        height: parent.height*0.1
+        anchors.centerIn: parent
+        color: "#99FFFFFF"
+        radius: height*0.4
+        visible: false
+        Text {
+            id: message
+            color: "black"
+            text: "测试"
+            anchors.centerIn: parent
+            font.pixelSize: parent.height*0.6
+            font.family: fontlist.blackFont
+            font.bold: true
+        }
+    }
+    Timer{
+        id:messageBoxHideTimer
+        interval: 3000
+        repeat: false
+        running: false
+        onTriggered: {
+            messageBox.visible=false
+        }
+    }
+    function showMessage(info){
+        message.text=info
+        messageBox.visible=true
+        messageBoxHideTimer.restart()
+    }
     Component.onCompleted: {
         //testFunction3()
     }
