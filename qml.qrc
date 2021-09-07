@@ -14,6 +14,7 @@
         <file alias="Tools/ImageStitchView.qml">src/qmlComponent/ImageStitchView.qml</file>
         <file alias="Tools/QtApplicationPackage.qml">src/qmlComponent/QtApplicationPackage.qml</file>
         <file alias="Tools/PowerOnAutoStartPage.qml">src/qmlComponent/PowerOnAutoStartPage.qml</file>
+        <file alias="Tools/ImageTranslate.qml">src/qmlComponent/ImageTranslate.qml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>source/fonts/TengXiangMingSongJian-W4-2.ttf</file>

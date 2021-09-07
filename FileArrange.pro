@@ -22,7 +22,10 @@ SOURCES += src/main.cpp \
     src/GlobalTool.cpp \
     src/ApplicationPackage.cpp \
     src/InitApp.cpp \
-    src/AutoStartSetting.cpp
+    src/AutoStartSetting.cpp \
+    src/ImageORC.cpp \
+    src/MainFunction.cpp \
+    src/TextTranslate.cpp
 
 RESOURCES += qml.qrc \
     filearrange.qrc
@@ -45,7 +48,10 @@ HEADERS += \
     src/GlobalTool.h \
     src/ApplicationPackage.h \
     src/InitApp.h \
-    src/AutoStartSetting.h
+    src/AutoStartSetting.h \
+    src/ImageORC.h \
+    src/MainFunction.h \
+    src/TextTranslate.h
 
 INCLUDEPATH +=   \
     src/qmlComponent

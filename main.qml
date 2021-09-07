@@ -16,6 +16,7 @@ ApplicationWindow {
         imageStitchView.visible=false
         qtApplicationPackage.visible=false
         powerOnAutoStartPage.visible=false
+        imageTranslatePage.visible=false
     }
     FontList{
         id:fontlist
@@ -23,7 +24,6 @@ ApplicationWindow {
     TabBar{
         id:bar
         width: parent.width
-        height: parent.height*0.1
         TabButton{
             text:"工作计划整理工具"
             onClicked: {
@@ -71,11 +71,18 @@ ApplicationWindow {
                 closeAll()
             }
         }
+        TabButton{
+            text: "窗口翻译"
+            onClicked: {
+                closeAll()
+                imageTranslatePage.visible=true
+            }
+        }
     }
     Item {
         id:containItem
         width: parent.width
-        height: parent.height*0.93
+        anchors.top: bar.bottom
         anchors.bottom: parent.bottom
         ExcelAnalyzerView{
             id:excelAnalyzerView
@@ -102,23 +109,45 @@ ApplicationWindow {
             anchors.fill:parent
             visible:false
         }
+        ImageTranslate{
+            id:imageTranslatePage
+            anchors.fill:parent
+            visible:false
+        }
     }
     Rectangle{
         id:messageBox
-        width: message.width+parent.width*0.1
+        width: ( editable ? message_edit.width : message.width ) + parent.width*0.1
         height: parent.height*0.1
         anchors.centerIn: parent
         color: "#99FFFFFF"
         radius: height*0.4
         visible: false
+        property bool editable: false
+        signal editText(var info)
         Text {
             id: message
             color: "black"
             text: "测试"
             anchors.centerIn: parent
             font.pixelSize: parent.height*0.6
-            font.family: fontlist.blackFont
+            font.family: fontlist.blackFont.name
             font.bold: true
+            visible: !parent.editable
+        }
+        TextInput{
+            id: message_edit
+            color: "black"
+            text: "测试"
+            anchors.centerIn: parent
+            font.pixelSize: parent.height*0.6
+            font.family: fontlist.blackFont.name
+            font.bold: true
+            visible: parent.editable
+            onAccepted: {
+                messageBox.visible=false
+                parent.editText(message_edit.text)
+            }
         }
     }
     Timer{
@@ -131,113 +160,99 @@ ApplicationWindow {
         }
     }
     function showMessage(info){
+        messageBox.editable=false
         message.text=info
         messageBox.visible=true
         messageBoxHideTimer.restart()
     }
+    function showEditMessage(info){
+        messageBox.editable=true
+        message_edit.text=info
+        messageBox.visible=true
+    }
     Component.onCompleted: {
-        //testFunction3()
+        /**/
+        var groupName = "RCINInfo"
+        var propertyList = ["ch1in","ch2in","ch3in","ch4in","ch5in","ch6in","ch7in","ch8in","ch9in","ch10in","ch11in","ch12in","ch13in","ch14in","rssi"]
+        var nameList = ["输入通道1","输入通道2","输入通道3","输入通道4","输入通道5","输入通道6","输入通道7","输入通道8","输入通道9","输入通道10","输入通道11","输入通道12","输入通道13","输入通道14","通信强度"]
+        var typeList = ["uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16",'uint8']
+        var fixNumList = ["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"]
+        var unitList = ["us","us","us","us","us","us","us","us","us","us","us","us","us","us",""]
+        autoBuildCode(groupName,propertyList,nameList,typeList,fixNumList,unitList)
     }
-    function testFunction2(){
-        var x1=0
-        var y1=0
-        var x2=400
-        var y2=300
-        var tarbearing=0;
-        var intoAngle=90;
-        var speed1=5.0
-        var speed2=20.0
-        var k=speed2/speed1
-        var angle1=tarbearing/180*Math.PI
-        var angle2=intoAngle/180*Math.PI
-        var a=Math.sin(angle1)+k*Math.sin(angle2);
-        var b=Math.cos(angle1)+k*Math.cos(angle2);
-        var c=a*a+b*b;
-        var d1=Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))
-        console.log("d1:"+d1)
-        var d2=d1/Math.sqrt(c);
-        var x3=x1+d2*Math.cos(angle1)
-        var y3=y1+d2*Math.sin(angle1)
-        console.log("x3:"+x3+" y3:"+y3)
-        var d3=Math.sqrt((x2-x3)*(x2-x3)+(y2-y3)*(y2-y3))
-        var t1=d2/speed1
-        var t2=d3/speed2
-        console.log("t1:"+t1+" t2:"+t2);
-    }
-    function testFunction(){
-        var v1=0;
-        var v2=20;
-        var x1=0;
-        var y1=0;
-        var x2=-700;
-        var y2=10;
-        var ange1=0/180*Math.PI;
-        var ange2=30/180*Math.PI;
-        var distance=500;
-        var k1=x1+distance*Math.cos(ange2)-x2
-        var k2=y1+distance*Math.sin(ange2)-y2
-        var a=(v1*Math.cos(ange1))*(v1*Math.cos(ange1))+(v1*Math.sin(ange1))*(v1*Math.sin(ange1))-v2*v2
-        var b=2*k1*v1*Math.cos(ange1)+1*k2*v1*Math.sin(ange1)+2*distance*v2
-        var c=k1*k1+k2*k2-distance*distance
-        var t1=(-b+Math.sqrt(b*b-4*a*c))/(2*a)
-        var t2=(-b-Math.sqrt(b*b-4*a*c))/(2*a)
-        console.log("time 1:"+t1+" time 2:"+t2)
-    }
-    function testFunction3(){
-        var tarX1
-        var tarX2
-        var tarY1
-        var tarY2
-        var x1=150
-        var y1=150
-        var x2=0
-        var y2=0
-        var rad=300
-        var angle=270
-        var k=1/Math.tan(angle/180*Math.PI)
-        var b=y1-k*x1
-        var A=1+k*k
-        var B=2*k*(b-y2)-2*x2
-        var C=x2*x2+(b-y2)*(b-y2)-rad*rad
-        if(angle==0||angle==180){
-            tarX1=x1
-            tarX2=x1
-            tarY1=y2+Math.sqrt(rad*rad-(tarX1-x2)*(tarX1-x2))
-            tarY2=y2-Math.sqrt(rad*rad-(tarX1-x2)*(tarX1-x2))
-        }else{
-            tarX1=(-B+Math.sqrt(B*B-4*A*C))/(2*A)
-            tarX2=(-B-Math.sqrt(B*B-4*A*C))/(2*A)
-            tarY1=k*tarX1+b
-            tarY2=k*tarX2+b
-        }
-        if(angle==0){
-            if(tarY1>y1){
-                console.log("x1:"+tarX1+" y1:"+tarY1)
-            }else{
-                console.log("x1:"+tarX2+" y1:"+tarY2)
+
+    function autoBuildCode(groupName,propertyNameList,humannameList,typeList,fixNumList,unitList){
+        var codeList = ""
+        codeList += "class " +"Vehicle"+groupName+"FactGroup"+":public FactGroup{\r\n"
+        codeList += "Q_OBJECT\r\n"
+        codeList += "public:\r\n"
+        codeList += "Vehicle"+groupName+"FactGroup(QObject* parent = NULL);\r\n"
+        for(var i=0;i<propertyNameList.length;i++)
+            codeList += "Q_PROPERTY(Fact* "+propertyNameList[i]+"Fact"+"        READ "+propertyNameList[i]+"Fact"+"        CONSTANT)\r\n"
+        for(var i=0;i<propertyNameList.length;i++)
+            codeList += "Fact* "+propertyNameList[i]+"Fact"+" (void) { return &_"+propertyNameList[i]+"Fact"+"; }\r\n"
+        codeList += "static const char* _settingsGroup;\r\n"
+        codeList += "private:\r\n"
+        for(var i=0;i<propertyNameList.length;i++)
+            codeList += "Fact                "+"_"+propertyNameList[i]+"Fact;\r\n"
+        codeList +="};\r\n"
+        console.info(codeList)
+        codeList = ""
+        codeList += "Vehicle"+groupName+"FactGroup"+"::"+"Vehicle"+groupName+"FactGroup(QObject* parent)\r\n"
+        codeList += ":FactGroup(1000,\":/json/Vehicle/"+groupName+".json"+"\",parent)\r\n"
+        for(var i=0;i<propertyNameList.length;i++){
+            var type =""
+            switch(typeList[i]){
+            case "uint8":
+                type="valueTypeUint8"
+                break;
+            case "int8":
+                type="valueTypeInt8"
+                break;
+            case "uint16":
+                type="valueTypeUint16"
+                break;
+            case "int16":
+                type="valueTypeInt16"
+                break;
+            case "uint32":
+                type="valueTypeUint32"
+                break;
+            case "int32":
+                type="valueTypeInt32"
+                break;
+            case "float":
+                type="valueTypeFloat"
+                break;
+            case "double":
+                type="valueTypeDouble"
+                break;
             }
-            return
+            codeList += ",_"+propertyNameList[i]+"Fact"+"              (0,u8\""+humannameList[i]+"\",                 FactMetaData::"+type+")\r\n"
         }
-        if(angle==180){
-            if(tarY1<y1){
-                console.log("x1:"+tarX1+" y1:"+tarY1)
+
+        codeList += "{\r\n"
+        for(var i=0;i<propertyNameList.length;i++)
+            codeList += "_addFact(&_"+propertyNameList[i]+"Fact"+",u8\""+humannameList[i]+"\");\r\n"
+        codeList += "}\r\n"
+        console.info(codeList)
+        codeList = ""
+        codeList +="[\r\n"
+        for(var i=0;i<propertyNameList.length;i++){
+            codeList += "{\r\n"
+            codeList +="\"name\":                \""+humannameList[i]+"\",\r\n"
+            codeList +="\"shortDescription\":    \""+humannameList[i]+"\",\r\n"
+            codeList +="\"type\":                \""+typeList[i]+"\",\r\n"
+            codeList +="\"decimalPlaces\":       "+fixNumList[i]+",\r\n"
+            codeList +="\"units\":               \""+unitList[i]+"\"\r\n"
+            if(i==propertyNameList.length-1){
+                codeList += "}\r\n"
             }else{
-                console.log("x1:"+tarX2+" y1:"+tarY2)
+                codeList += "},\r\n"
             }
-            return
+
         }
-        if(angle<180){
-            if(tarX1>x1){
-                console.log("x1:"+tarX1+" y1:"+tarY1)
-            }else{
-                console.log("x1:"+tarX2+" y1:"+tarY2)
-            }
-        }else if(angle>=180){
-            if(tarX1>x1){
-                console.log("x1:"+tarX2+" y1:"+tarY2)
-            }else{
-                console.log("x1:"+tarX1+" y1:"+tarY1)
-            }
-        }
+        codeList +="]\r\n"
+        console.log(codeList)
     }
 }

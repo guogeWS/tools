@@ -29,17 +29,15 @@ void WindowsExcelFileAnalyzer::writeExcelFile(QString fileName){
     QAxObject *worksheet=workbook->querySubObject("WorkSheets(int)",1);
     //QAxObject *cell_1_1 = worksheet->querySubObject("Cells(int,int)", 1, 2);// 行  列
     int currentIndex=-1;
-    QString tomoryWorkInfo;
     for(int i=1;i<35;i++){
         QAxObject *cell =worksheet->querySubObject("Cells(int,int)", dataLineCount, i);
         QString value=cell->property("Value").toString();
-        if(value.contains((_currentData.length()>1?u8"-":u8"-0")+_currentData)){
+        if(value.contains( (_currentMounth.length()>1?u8"-":u8"-0")+_currentMounth + (_currentData.length()>1?u8"-":u8"-0")+_currentData) ){
             currentIndex=i;
             break;
         }
     }
     qDebug()<<"currentIndex"<<currentIndex;
-    QAxObject *lastcell;
     if(currentIndex>0){
         for(int i=0;i<nameNum;i++){
             QString name=worksheet->querySubObject("Cells(int,int)", i+workSumaryFirstIndex, nameLineCount)->property("Value").toString();
@@ -120,8 +118,8 @@ void WindowsExcelFileAnalyzer::getUsefulFile(QString path){
         if(fileName.contains(_currentYear)){
             fileName.remove(_currentYear);
             if(fileName.contains(_currentMounth)){
-                int startIndex= fileName.indexOf(_currentMounth);
-                fileName= fileName.mid(startIndex+_currentMounth.length());
+                int startIndex = fileName.indexOf(_currentMounth);
+                fileName = fileName.mid(startIndex+_currentMounth.length());
                 if(fileName.contains(_currentData)){
                     qDebug()<<"fileName :"<<fileInfoList.at(i).fileName();
                     readExcelFile(path+fileInfoList.at(i).fileName());
@@ -130,7 +128,6 @@ void WindowsExcelFileAnalyzer::getUsefulFile(QString path){
         }
     }
     writeExcelFile(_targetFile);
-    //outPutToTxtFile("");
 }
 QString WindowsExcelFileAnalyzer::slipText(QString text){
     return text.remove("file:///");
