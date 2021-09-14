@@ -31,6 +31,9 @@ public:
     void       postMessage_person(QByteArray message);
     void       getAccessKey();
     void       readAll();
+    void       getAnalyzeMessage();
+    void       connectServer(QString ip,int port);//连接到ORC服务器上
+    void       disconnectServer();
 private:
     QStringList languageTypelist={"JAP","ENG"};
     QString app_id = "";

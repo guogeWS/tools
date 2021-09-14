@@ -15,15 +15,21 @@ class MainFunction:public QObject
     Q_PROPERTY(float targetY READ targetY WRITE setTargetY NOTIFY targetYChanged)
     Q_PROPERTY(float targetWidth READ targetWidth WRITE setTargetWidth NOTIFY targetWidthChanged)
     Q_PROPERTY(float targetHeight READ targetHeight WRITE setTargetHeight NOTIFY targetHeightChanged)
+    Q_PROPERTY(QString analyzeText READ analyzeText WRITE setAnalyzeText NOTIFY analyzeTextChanged)
+    Q_PROPERTY(QString ipAddress READ ipAddress WRITE setIpAddress NOTIFY ipAddressChanged)
 signals:
     void targetXChanged();
     void targetYChanged();
     void targetWidthChanged();
     void targetHeightChanged();
     void grabEnableChanged();
+    void analyzeTextChanged();
+    void ipAddressChanged();
 public:
     MainFunction();
     MainFunction(QQmlApplicationEngine *parent);
+    Q_INVOKABLE void startFunction();
+    Q_INVOKABLE void closeFunction();
     void grabFunction();
     void showText(QString message);
     void getGrabText();
@@ -37,6 +43,10 @@ public:
     void  setTargetHeight(float newValue){_targetHeight=newValue;emit targetHeightChanged();}
     bool  grabEnable(){return _grabEnable;}
     void  setGrabEnable(bool newValue){_grabEnable=newValue;emit grabEnableChanged();}
+    QString analyzeText(){return _analyzeText;}
+    void  setAnalyzeText(QString newValue){_analyzeText=newValue;emit analyzeTextChanged();}
+    QString ipAddress(){return _ipAddress;}
+    void  setIpAddress(QString newValue){_ipAddress=newValue;emit ipAddressChanged();}
 private:
     QQmlApplicationEngine *engine;
     TextTranslate *trans;
@@ -47,6 +57,8 @@ private:
     float _targetHeight;
     ImageORC *orc;
     bool _grabEnable;
+    QString _analyzeText;
+    QString _ipAddress;
 };
 
 #endif // MAINFUNCTION_H

@@ -3,13 +3,27 @@
 ImageORC::ImageORC(){
     screen=QGuiApplication::primaryScreen();
     trans=new TextTranslate();
-    socket->connectToHost("121.5.56.99",1234);
 }
 ImageORC::ImageORC(QQmlApplicationEngine *parent)
 {
     engine=parent;
     screen=QGuiApplication::primaryScreen();
     trans=new TextTranslate();
+}
+void ImageORC::connectServer(QString ip,int port){
+    socket->connectToHost(ip,port);
+    connect(socket,&QTcpSocket::readyRead,this,&ImageORC::getAnalyzeMessage);
+}
+void ImageORC::disconnectServer(){
+    socket->close();
+    socket->disconnect();
+}
+void ImageORC::getAnalyzeMessage(){
+    QByteArray message = socket->readAll();
+    message.replace("\n"," ");
+    qDebug()<<"get message"<<message;
+    QString transMessage=trans->translateFunction(QString(message));
+    emit getText(QString(transMessage));
 }
 void ImageORC::getGrabText(){
     grabImage();
