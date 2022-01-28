@@ -4,6 +4,7 @@ import QtQuick.Layouts          1.3
 import FileManager              1.0
 import Tools                    1.0
 import GlobalTool               1.0
+import Qt.labs.settings 1.0
 ApplicationWindow {
     id:rootWindow
     visible: true
@@ -17,6 +18,12 @@ ApplicationWindow {
         qtApplicationPackage.visible=false
         powerOnAutoStartPage.visible=false
         imageTranslatePage.visible=false
+    }
+    Settings{
+        id:appSettings
+        category: "applicationSettings"
+        property alias appWidth: rootWindow.width
+        property alias appHeight: rootWindow.height
     }
     FontList{
         id:fontlist
@@ -178,7 +185,7 @@ ApplicationWindow {
         var typeList = ["uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16",'uint8']
         var fixNumList = ["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"]
         var unitList = ["us","us","us","us","us","us","us","us","us","us","us","us","us","us",""]
-        autoBuildCode(groupName,propertyList,nameList,typeList,fixNumList,unitList)
+        //autoBuildCode(groupName,propertyList,nameList,typeList,fixNumList,unitList)
     }
 
     function autoBuildCode(groupName,propertyNameList,humannameList,typeList,fixNumList,unitList){
