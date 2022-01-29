@@ -9,6 +9,7 @@ MainFunction::MainFunction(){
     QObject::connect(&timer,&QTimer::timeout,this,&MainFunction::getGrabText);
     QObject::connect(orc,&ImageORC::getText,this,&MainFunction::showText);
     trans=new TextTranslate();
+    setRunningState(STOPED);
 }
 
 MainFunction::MainFunction(QQmlApplicationEngine *parent)
@@ -21,21 +22,25 @@ MainFunction::MainFunction(QQmlApplicationEngine *parent)
     QObject::connect(orc,&ImageORC::getText,this,&MainFunction::showText);
     timer.start(3000);
     trans=new TextTranslate();
+    setRunningState(RUNNING);
 }
 void MainFunction::startFunction(){
     workThread.start();
     timer.start(3000);
-    qDebug()<<"AAAAAAA"<<_ipAddress;
-    orc->connectServer(_ipAddress,1234);
+    if(orc->connectServer(_ipAddress,1234)){
+        setRunningState(RUNNING);
+    }
 }
 void MainFunction::closeFunction(){
     workThread.exit();
     timer.stop();
     orc->disconnectServer();
+    setRunningState(STOPED);
 }
-void MainFunction::showText(QString message){
-    qDebug()<<"analyz message :"<<message;
-    setAnalyzeText(message);
+void MainFunction::showText(QString rawMessage, QString transMessage){
+    qDebug()<<"analyz message :"<<transMessage;
+    setAnalyzeText(transMessage);
+    setRawText(rawMessage);
     //engine->rootObjects()[0]->setProperty("orcText",message);
 }
 void MainFunction::getGrabText(){

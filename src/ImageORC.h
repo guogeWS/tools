@@ -32,7 +32,7 @@ public:
     void       getAccessKey();
     void       readAll();
     void       getAnalyzeMessage();
-    void       connectServer(QString ip,int port);//连接到ORC服务器上
+    bool       connectServer(QString ip,int port);//连接到ORC服务器上
     void       disconnectServer();
 private:
     QStringList languageTypelist={"JAP","ENG"};
@@ -51,7 +51,7 @@ private:
     TextTranslate *trans;
     QTcpSocket *socket=new QTcpSocket();
 signals:
-    void getText(QString message);
+    void getText(QString rawMessage, QString transMessage);
 };
 
 #endif // IMAGEORC_H

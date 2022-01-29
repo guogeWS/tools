@@ -191,5 +191,4 @@ Item{
             color: "white"
         }
     }
-
 }

@@ -10,9 +10,13 @@ ImageORC::ImageORC(QQmlApplicationEngine *parent)
     screen=QGuiApplication::primaryScreen();
     trans=new TextTranslate();
 }
-void ImageORC::connectServer(QString ip,int port){
+bool ImageORC::connectServer(QString ip,int port){
     socket->connectToHost(ip,port);
+    if(!socket->waitForConnected()){
+        return false;
+    }
     connect(socket,&QTcpSocket::readyRead,this,&ImageORC::getAnalyzeMessage);
+    return true;
 }
 void ImageORC::disconnectServer(){
     socket->close();
@@ -23,7 +27,7 @@ void ImageORC::getAnalyzeMessage(){
     message.replace("\n"," ");
     qDebug()<<"get message"<<message;
     QString transMessage=trans->translateFunction(QString(message));
-    emit getText(QString(transMessage));
+    emit getText(QString(message), QString(transMessage));
 }
 void ImageORC::getGrabText(){
     grabImage();
@@ -111,6 +115,6 @@ void ImageORC::postMessage(QByteArray message){
     //qDebug()<<"return message:"<<returnMessage;
     QString transMessage=trans->translateFunction(QString(returnMessage));
     qDebug()<<"aaaaa"<<transMessage;
-    emit getText(QString(returnMessage));
+    emit getText(QString(returnMessage), QString(returnMessage));
     //qDebug()<<"result:"<<returnMessage ;
 }

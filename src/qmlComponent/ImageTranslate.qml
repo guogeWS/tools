@@ -36,6 +36,7 @@ Item{
         anchors.topMargin: 10
         anchors.left: parent.left
         anchors.leftMargin: 10
+        width: parent.width
         Text {
             text: "请输入服务器IP:"
             font.pixelSize: titleFontSize
@@ -142,6 +143,7 @@ Item{
                 onClicked: {
                     mainFunction.startFunction()
                 }
+                visible: mainFunction.runningState ==  MainFunction.STOPED
             }
             Button{
                 width: 60
@@ -149,24 +151,29 @@ Item{
                 onClicked: {
                     mainFunction.closeFunction()
                 }
-            }
-            Button{
-                width: 60
-                text: "切换显示"
-                onClicked: {
-                    mainFunction.closeFunction()
-                }
+                visible: mainFunction.runningState == MainFunction.RUNNING
             }
         }
+        Text {
+            width: parent.width
+            text:"原文：\n" + mainFunction.rawText
+            font.pixelSize: titleFontSize*0.8
+            font.family: fontlist.blackFont.name
+            color: "white"
+            wrapMode:Text.WordWrap
+            visible: mainFunction.runningState == MainFunction.RUNNING
+        }
+        Text {
+            width: parent.width
+            text: "译文：\n" + mainFunction.analyzeText
+            font.pixelSize: titleFontSize*0.8
+            font.family: fontlist.blackFont.name
+            color: "white"
+            wrapMode:Text.WordWrap
+            visible: mainFunction.runningState == MainFunction.RUNNING
+        }
     }
-//    Text {
-//        width: parent.width
-//        text: mainFunction.analyzeText
-//        font.pixelSize: titleFontSize
-//        font.family: fontlist.blackFont.name
-//        color: "white"
-//        wrapMode:Text.WordWrap
-//    }
+
     MainFunction{
         id:mainFunction
         targetX: subWindow.x
@@ -193,14 +200,47 @@ Item{
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton //只处理鼠标左键
             property point clickPos: "0,0"
+            property real  clickWindowWidth
+            property real  clickWindowHeight
+            property bool  hMove: false
+            property bool  vMove: false
+            hoverEnabled: true
             onPressed: { //接收鼠标按下事件
-                clickPos  = Qt.point(mouse.x,mouse.y)
+                clickWindowHeight = subWindow.height
+                clickWindowWidth = subWindow.width
+                if(cursorShape == Qt.ArrowCursor){
+                    clickPos  = Qt.point(mouse.x,mouse.y)
+                    cursorShape = Qt.SizeAllCursor
+                }
+                if(cursorShape == Qt.SizeHorCursor){
+                    hMove = true
+                }
+                if(cursorShape == Qt.SizeVerCursor){
+                    vMove = true
+                }
+            }
+            onReleased: {
+                cursorShape = Qt.ArrowCursor
+                hMove = false
+                vMove = false
             }
             onPositionChanged: { //鼠标按下后改变位置
                 //鼠标偏移量
+                if(mouse.x<10||mouse.x>subWindow.width-10){
+                    cursorShape = Qt.SizeHorCursor
+                }else if(mouse.y<10||mouse.y>subWindow.height-10){
+                    cursorShape = Qt.SizeVerCursor
+                }else if(cursorShape != Qt.SizeAllCursor){
+                    cursorShape = Qt.ArrowCursor
+                }
                 var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
-                subWindow.setX(subWindow.x+delta.x)
-                subWindow.setY(subWindow.y+delta.y)
+                if(cursorShape == Qt.SizeAllCursor){
+                    subWindow.setX(subWindow.x+delta.x)
+                    subWindow.setY(subWindow.y+delta.y)
+                }else if(hMove){
+                    subWindow.setX(subWindow.x+delta.x)
+                    subWindow.setWidth(clickWindowWidth+delta.x)
+                }
             }
         }
     }
