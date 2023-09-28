@@ -18,6 +18,8 @@ ApplicationWindow {
         qtApplicationPackage.visible=false
         powerOnAutoStartPage.visible=false
         imageTranslatePage.visible=false
+        tcpToolsView.visible=false
+        serialToolsView.visible=false
     }
     Settings{
         id:appSettings
@@ -70,12 +72,14 @@ ApplicationWindow {
             text: "串口助手"
             onClicked: {
                 closeAll()
+                serialToolsView.visible=true
             }
         }
         TabButton{
             text: "网络助手"
             onClicked: {
                 closeAll()
+                tcpToolsView.visible=true
             }
         }
         TabButton{
@@ -118,6 +122,18 @@ ApplicationWindow {
         }
         ImageTranslate{
             id:imageTranslatePage
+            anchors.fill:parent
+            visible:false
+        }
+        TcpToolsView{
+            id:tcpToolsView
+            serialTool:serialToolsView.serialTool
+            anchors.fill:parent
+            visible:false
+        }
+        SerialToolsView{
+            id:serialToolsView
+            tcpTool:tcpToolsView.tcpTool
             anchors.fill:parent
             visible:false
         }
@@ -178,13 +194,13 @@ ApplicationWindow {
         messageBox.visible=true
     }
     Component.onCompleted: {
-        /**/
-        var groupName = "RCINInfo"
-        var propertyList = ["ch1in","ch2in","ch3in","ch4in","ch5in","ch6in","ch7in","ch8in","ch9in","ch10in","ch11in","ch12in","ch13in","ch14in","rssi"]
-        var nameList = ["输入通道1","输入通道2","输入通道3","输入通道4","输入通道5","输入通道6","输入通道7","输入通道8","输入通道9","输入通道10","输入通道11","输入通道12","输入通道13","输入通道14","通信强度"]
-        var typeList = ["uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16","uint16",'uint8']
-        var fixNumList = ["0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"]
-        var unitList = ["us","us","us","us","us","us","us","us","us","us","us","us","us","us",""]
+        /*用于自动生成相关的FactGroup*/
+        var groupName = "MedicInfo"
+        var propertyList = ["speed","coust","empty","distanceRemain"]
+        var nameList = ["流速","消耗药量","空药量","剩余航程"]
+        var typeList = ["float","float","uint8","uint16"]
+        var fixNumList = ["2","2","0","0"]
+        var unitList = ["毫升/秒","升","","米"]
         //autoBuildCode(groupName,propertyList,nameList,typeList,fixNumList,unitList)
     }
 

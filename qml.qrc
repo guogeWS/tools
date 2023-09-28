@@ -15,6 +15,8 @@
         <file alias="Tools/QtApplicationPackage.qml">src/qmlComponent/QtApplicationPackage.qml</file>
         <file alias="Tools/PowerOnAutoStartPage.qml">src/qmlComponent/PowerOnAutoStartPage.qml</file>
         <file alias="Tools/ImageTranslate.qml">src/qmlComponent/ImageTranslate.qml</file>
+        <file alias="Tools/TcpToolsView.qml">src/qmlComponent/TcpToolsView.qml</file>
+        <file alias="Tools/SerialToolsView.qml">src/qmlComponent/SerialToolsView.qml</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>source/fonts/TengXiangMingSongJian-W4-2.ttf</file>

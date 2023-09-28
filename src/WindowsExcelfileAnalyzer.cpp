@@ -4,6 +4,10 @@ WindowsExcelFileAnalyzer::WindowsExcelFileAnalyzer()
 {
 
 }
+void WindowsExcelFileAnalyzer::initExcelApp(){
+    excel = new QAxObject("Excel.Application");
+    excel->setProperty("Visible",false);
+}
 QString WindowsExcelFileAnalyzer::outPutToTxtFile(QString fileName){
     QString outPutString="";
     outPutString+=u8"研发部工作总结；"+_currentYear+"."+_currentMounth+"."+_currentData+"\n";
@@ -22,9 +26,7 @@ QString WindowsExcelFileAnalyzer::outPutToTxtFile(QString fileName){
 }
 void WindowsExcelFileAnalyzer::writeExcelFile(QString fileName){
     infoList.clear();
-    QAxObject excel("Excel.Application");
-    excel.setProperty("Visible",false);
-    QAxObject *workbooks = excel.querySubObject("WorkBooks");
+    QAxObject *workbooks = excel->querySubObject("WorkBooks");
     QAxObject *workbook=workbooks->querySubObject("Open(Qstring,Qvariant)",fileName);
     QAxObject *worksheet=workbook->querySubObject("WorkSheets(int)",1);
     //QAxObject *cell_1_1 = worksheet->querySubObject("Cells(int,int)", 1, 2);// 行  列
@@ -49,14 +51,12 @@ void WindowsExcelFileAnalyzer::writeExcelFile(QString fileName){
             infoList.append(infoMap[name]);
         }
     }
-    workbook->dynamicCall("Save");
-    workbook->dynamicCall("Close");
-    excel.dynamicCall("Quit()");
+    workbook->dynamicCall("Save()");
+    workbook->dynamicCall("Close()");
+    qDebug()<<"file update complete";
 }
 void WindowsExcelFileAnalyzer::readExcelFile(QString fileName){
-    QAxObject excel("Excel.Application");
-    excel.setProperty("Visible",false);
-    QAxObject *workbooks = excel.querySubObject("WorkBooks");
+    QAxObject *workbooks = excel->querySubObject("WorkBooks");
     QAxObject *workbook=workbooks->querySubObject("Open(Qstring,Qvariant)",fileName);
     QAxObject *worksheet=workbook->querySubObject("WorkSheets(int)",1);
     QAxObject *usedrange=worksheet->querySubObject("UsedRange");
@@ -102,16 +102,16 @@ void WindowsExcelFileAnalyzer::readExcelFile(QString fileName){
     }
     infoMap[workinfo.name]=workinfo;
     qDebug()<<"info info"<<workinfo.name<<":"<<workinfo.summaryOfTodayWork<<":"<<workinfo.tomorrowWorkPlan;
-    workbook->dynamicCall("Close");
-    excel.dynamicCall("Quit()");
-
+    workbook->dynamicCall("Close()");
 }
 void WindowsExcelFileAnalyzer::getUsefulFile(QString path){
+    initExcelApp();
     QDir fileDir(path);
     fileDir.setFilter(QDir::Files);
     QFileInfoList fileInfoList=fileDir.entryInfoList();
     for(int i=0;i<fileInfoList.length();i++){
         QString fileName=fileInfoList.at(i).fileName();
+        //qDebug()<<"file name name:"<<fileName;
         if(fileName.contains(u8"周工作计划")){
             continue;
         }
@@ -121,13 +121,18 @@ void WindowsExcelFileAnalyzer::getUsefulFile(QString path){
                 int startIndex = fileName.indexOf(_currentMounth);
                 fileName = fileName.mid(startIndex+_currentMounth.length());
                 if(fileName.contains(_currentData)){
-                    qDebug()<<"fileName :"<<fileInfoList.at(i).fileName();
+                    qDebug()<<"get available fileName :"<<fileInfoList.at(i).fileName();
                     readExcelFile(path+fileInfoList.at(i).fileName());
+                    qDebug()<<"PPPPPPPPPPPPP";
                 }
             }
         }
     }
     writeExcelFile(_targetFile);
+    excel->dynamicCall("Quit()");//关闭excel
+    delete excel;
+    excel = NULL;
+    qDebug()<<"OOOOOOOOOOOOOO";
 }
 QString WindowsExcelFileAnalyzer::slipText(QString text){
     return text.remove("file:///");

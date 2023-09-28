@@ -37,7 +37,7 @@ public:
     int  dataLineCountQML(){return dataLineCount;}
     void setDataLineCountQML(int newValue){dataLineCount=newValue;emit dataLineCountQMLChanged();}
 
-
+    void  initExcelApp();
     Q_INVOKABLE void    readExcelFile(QString fileName);
     Q_INVOKABLE void    writeExcelFile(QString fileName);
     Q_INVOKABLE QString outPutToTxtFile(QString fileName);
@@ -58,6 +58,7 @@ public:
     QString _currentMounth="";
     QString _targetFile;
 private:
+    QAxObject* excel;
     int _analyzeType;//解析模式  0：  1；
     int nameNum=4;//姓名数量
     int dataLineCount=11;//日期所在列序号

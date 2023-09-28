@@ -4,6 +4,7 @@ CONFIG += c++11
 QT += widgets
 QT += core
 QT += sql
+QT += serialport
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -25,7 +26,9 @@ SOURCES += src/main.cpp \
     src/AutoStartSetting.cpp \
     src/ImageORC.cpp \
     src/MainFunction.cpp \
-    src/TextTranslate.cpp
+    src/TextTranslate.cpp \
+    src/TcpTools.cpp \
+    src/SerialTools.cpp
 
 RESOURCES += qml.qrc \
     filearrange.qrc
@@ -51,7 +54,9 @@ HEADERS += \
     src/AutoStartSetting.h \
     src/ImageORC.h \
     src/MainFunction.h \
-    src/TextTranslate.h
+    src/TextTranslate.h \
+    src/TcpTools.h \
+    src/SerialTools.h
 
 INCLUDEPATH +=   \
     src/qmlComponent

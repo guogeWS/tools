@@ -13,6 +13,8 @@
 #include <QQuickWindow>
 #include "AutoStartSetting.h"
 #include "MainFunction.h"
+#include "TcpTools.h"
+#include "SerialTools.h"
 QObject * getGloalToolsFunction(QQmlEngine* ,QJSEngine *){
     GlobalTool* tools=new GlobalTool();
     return tools;
@@ -33,6 +35,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<AutoStartSetting>         ("AutoStartSetting"          ,1 ,0    ,"AutoStartSetting");
     qmlRegisterType<MainFunction>             ("MainFunction"              ,1 ,0    ,"MainFunction");
     qmlRegisterSingletonType<GlobalTool>      ("GlobalTool"                ,1 ,0    ,"GlobalTool"          ,getGloalToolsFunction);
+    qmlRegisterType<TcpTools>                 ("TcpTools"                  ,1 ,0    ,"TcpTools");
+    qmlRegisterType<SerialTools>              ("SerialTools"               ,1 ,0    ,"SerialTools");
     engine.addImportPath("qrc:/qmlComponents");
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
 

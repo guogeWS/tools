@@ -1,9 +1,11 @@
 ﻿Module Tools
-ExcelAnalyzerView 1.0    ExcelAnalyzerView.qml
-FontList          1.0    FontList.qml
-Test              1.0    Test.qml
-FileInfoView      1.0    FileInfoView.qml
-ImageStitchView   1.0    ImageStitchView.qml
-QtApplicationPackage 1.0 QtApplicationPackage.qml
-PowerOnAutoStartPage 1.0 PowerOnAutoStartPage.qml
-ImageTranslate    1.0    ImageTranslate.qml
+ExcelAnalyzerView       1.0     ExcelAnalyzerView.qml
+FontList                1.0     FontList.qml
+Test                    1.0     Test.qml
+FileInfoView            1.0     FileInfoView.qml
+ImageStitchView         1.0     ImageStitchView.qml
+QtApplicationPackage    1.0     QtApplicationPackage.qml
+PowerOnAutoStartPage    1.0     PowerOnAutoStartPage.qml
+ImageTranslate          1.0     ImageTranslate.qml
+TcpToolsView            1.0     TcpToolsView.qml
+SerialToolsView         1.0     SerialToolsView.qml
